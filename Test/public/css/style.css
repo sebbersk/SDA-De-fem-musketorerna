@@ -1,0 +1,32 @@
+.title.is-1{
+  color:green;
+  text-align: center;
+  margin-right: 400px
+
+}
+.subtitle.is-5{
+  color:Lime;
+  text-align: center;
+  margin-right: 200px;
+}
+.header {
+  overflow: hidden;
+  background-color: DarkSlateGray;
+  width: 100%
+  border: 3px solid DarkSlateGray;
+}
+
+.header-options{
+  float: right;
+}
+
+#login,#dropdown{
+
+  float:right;
+
+
+}
+footer{
+  margin:0 auto;
+  height: 20px;
+}

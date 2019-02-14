@@ -262,7 +262,7 @@ button:active, input[type="submit"]:active {
     input, textarea {
         width: calc(var(--min-width));
     }
-    button {
+    button, input[type="submit"] {
         width: auto;
         padding-left: 30px;
         padding-right: 30px;

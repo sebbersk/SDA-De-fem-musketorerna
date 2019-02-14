@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Karla:400,700');
+@import url('https://fonts.googleapis.com/css?family=Lato:400,700');
 * {
     margin:0;
     padding:0;
@@ -20,7 +22,7 @@
 body {
     background-color:white;
     color: var(--text-dark);
-    font-family: helvetica;
+    font-family: 'Lato';
     font-size:17px;
     padding-top:calc(var(--menu-height) + 20px);
 }
@@ -30,6 +32,7 @@ p,label, blockquote, form, label,ul,ol,dl,fieldset,address {
 }
 h1,h2,h3,h4,h5,h6 {
     margin: 0 var(--margin) 0.5em var(--margin);
+    font-family: 'Karla';
 }
 
 p {
@@ -244,6 +247,7 @@ button:active {
     font-weight: 400;
     font-size: 2em;
     line-height: 2em;
+    font-family: 'Karla';
 }
 
 .menu-items span {

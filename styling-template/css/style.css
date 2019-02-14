@@ -156,7 +156,7 @@ input[type="radio"]:checked + span {
 }
 
 
-button {
+button, input[type="submit"] {
     line-height: 1em;
     width: calc(100% - (var(--margin) * 2));
     margin: 0 var(--margin) 1em var(--margin);
@@ -171,7 +171,7 @@ button {
     cursor: pointer;
     transition: box-shadow 0.2s, scale 0.2s, brightness 0.2s;
 }
-button:active {
+button:active, input[type="submit"]:active {
     box-shadow: 0 0px 0px #0004;
     transform: scale(0.99);
     filter: brightness(0.6);

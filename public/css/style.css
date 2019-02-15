@@ -23,6 +23,7 @@ body {
     background-color:white;
     color: var(--text-dark);
     font-family: 'Lato';
+    overflow-x: hidden;
     font-size:17px;
     padding-top:calc(var(--menu-height) + 20px);
 }
@@ -51,7 +52,7 @@ li {margin: 0 0 1em 1em;}
 
 img {
     max-width:calc(100% - (var(--margin)*2));
-    margin: 0 var(--margin) var(--margin) 10px;
+    margin: 0 var(--margin) 10px var(--margin);
 }
 img.full {
     width:100vw;
@@ -117,6 +118,7 @@ input[type="checkbox"], input[type="radio"] {
     top:0;
     font-size: 17px;
     text-transform: none;
+    pointer-events: none;
 }
 input[type="checkbox"] + span, input[type="radio"] + span {
     height: 24px;

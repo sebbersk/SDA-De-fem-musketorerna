@@ -6,5 +6,11 @@ var pages = new Vue({
     el: '#pages',
     data: {
         index: 0,
+    },
+    methods: {
+        nextButton: function() {
+            this.index++;
+            window.scrollTo(0,0);
+        },
     }
 })

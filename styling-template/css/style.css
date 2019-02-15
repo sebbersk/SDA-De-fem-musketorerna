@@ -1,0 +1,274 @@
+@import url('https://fonts.googleapis.com/css?family=Karla:400,700');
+@import url('https://fonts.googleapis.com/css?family=Lato:400,700');
+* {
+    margin:0;
+    padding:0;
+    outline:0;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+:root {
+    --menu-height: 56px;
+    --margin: 20px;
+    --color1: #eee;
+    --color2: #14ce9c;
+    --color2-dark: #31a586;
+    --color3: #0B2027;
+    --text-dark: #111;
+    --text-dark2: #333;
+    --text-light1: #fff;
+    --min-width: 400px;
+}
+
+body {
+    background-color:white;
+    color: var(--text-dark);
+    font-family: 'Lato';
+    font-size:17px;
+    padding-top:calc(var(--menu-height) + 20px);
+}
+
+p,label, blockquote, form, label,ul,ol,dl,fieldset,address {
+    margin: 0 var(--margin) 1em var(--margin);
+}
+h1,h2,h3,h4,h5,h6 {
+    margin: 0 var(--margin) 0.5em var(--margin);
+    font-family: 'Karla';
+    color: var(--color3);
+}
+
+p {
+    font-size: 1em;
+    line-height: 1.5em;
+}
+h1 { font-size: 2em; }
+h2 { font-size: 1.5em; }
+h3 { font-size: 1.17em; }
+h4 { font-size: 1.12em; }
+h5 { font-size: .83em; }
+h6 { font-size: .75em; }
+
+li {margin: 0 0 1em 1em;}
+
+img {
+    max-width:calc(100% - (var(--margin)*2));
+    margin: 0 var(--margin) var(--margin) 10px;
+}
+img.full {
+    width:100vw;
+    margin: 0 0 0 10px;
+}
+
+label {
+    color: var(--color3);
+    text-transform: uppercase;
+    font-size: 0.7em;
+    font-weight: 700;
+}
+input, textarea {
+    display: block;
+    line-height: 1em;
+    width: calc(100% - (var(--margin) * 2));
+    margin: 0.5em var(--margin) 1em var(--margin);
+    padding: 10px 15px;
+    font-size: 1em;
+    font-weight: 400;
+    border:1px solid #0003;
+    color: var(--text-dark2);
+    box-sizing: border-box;
+    background-color: white;
+    border-radius:1000px;
+    box-shadow: 0 3px 6px #0000;
+    transition: box-shadow 0.2s, scale 0.2s, brightness 0.2s;
+}
+
+input:focus, textarea:focus {
+    box-shadow: 0 3px 6px #0004;
+}
+textarea {
+    height: 6em;
+    border-radius:5px;
+    resize: none;
+}
+
+input[type="checkbox"], input[type="radio"] {
+    visibility: hidden;
+    width:100%;
+}
+.checkbox, .radio {
+    height: 24px;
+    display: block;
+    padding:0;
+    margin:0 10px 12px var(--margin);
+    position: relative;
+}
+.checkbox label, .radio label {
+    font-weight:400;
+    position: absolute;
+    left: 20px;
+    line-height: 24px;
+    top:0;
+    font-size: 17px;
+    text-transform: none;
+}
+input[type="checkbox"] + span, input[type="radio"] + span {
+    height: 24px;
+    width: 24px;
+    background-color: white;
+    border:1px solid #0003;
+    box-sizing: border-box;
+    border-radius:5px;
+    position: absolute;
+    top:0;
+    left:0;
+    transition: 0.1s;
+    cursor: pointer;
+}
+input[type="checkbox"] + span:after {
+    content: '✓';
+    text-align:center;
+    font-size: 1.4em;
+    margin-top: -0.6em;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    color:white;
+    top:50%;
+    left:0;
+    visibility: hidden;
+    transform: scale(0);
+    transition: 0.2s;
+}
+input[type="checkbox"]:checked + span:after {
+    visibility: visible;
+    transform: scale(1);
+}
+input[type="checkbox"]:checked + span {
+    background-color: var(--color2);
+    border:0;
+}
+
+input[type="radio"] + span {
+    border-radius:100px;
+}
+
+input[type="radio"]:checked + span {
+    border:8px solid var(--color2);
+}
+
+
+button, input[type="submit"] {
+    line-height: 1em;
+    width: calc(100% - (var(--margin) * 2));
+    margin: 0 var(--margin) 1em var(--margin);
+    font-size: 1em;
+    font-weight: 600;
+    border:0;
+    padding:0.8em 0;
+    color: var(--text-light1);
+    background-color: var(--color2);
+    border-radius:100px;
+    box-shadow: 0 3px 6px #0004;
+    cursor: pointer;
+    transition: box-shadow 0.2s, scale 0.2s, brightness 0.2s;
+}
+button:active, input[type="submit"]:active {
+    box-shadow: 0 0px 0px #0004;
+    transform: scale(0.99);
+    filter: brightness(0.6);
+    color:white;
+    transition: box-shadow 0.1s, scale 0.1s, brightness 0.2s;
+}
+
+.menu-button {
+    height: 48px;
+    top: calc(var(--menu-height)/2 - 15px);
+    width:48px;
+    margin-left:6px;
+    position: absolute;
+    cursor: pointer;
+}
+.menu-button span {
+    width: 70%;
+    margin-left: 15%;
+    border-radius: 1px;
+    height: 3px;
+    position: absolute;
+    background-color: white;
+    display: block;
+    transition: top 0.2s 0.1s, transform 0.2s;
+}
+.menu-button #top {
+    top: 9px;
+    }
+.menu-button #bottom {
+    top: 19px;
+}
+.menu.active .menu-button span {
+    transition: top 0.1s, transform 0.2s 0.05s;
+}
+.menu.active #top {
+    transform: rotate(45deg);
+    top: 14px;
+}
+.menu.active #bottom {
+    transform: rotate(-45deg);
+    top: 14px;
+}
+
+.menu {
+    height: var(--menu-height);
+    background-color: var(--color2);
+    position: fixed;
+    box-shadow: 0 3px 10px #0004;
+    top:0;
+    width:100%;
+    transition: height 0.25s ease-out;
+    overflow-y: hidden;
+    z-index: 2;
+}
+
+.menu.active {
+    height: 100vh;
+}
+
+.menu-items {
+    position: absolute;
+    top: var(--menu-height);
+    width:100%;
+    display: flex;
+    align-items: center;
+    text-align:center;
+    justify-content: center;
+    height: calc(100vh - (var(--menu-height)*2));
+}
+.menu-items a {
+    color: var(--text-light1);
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: 400;
+    font-size: 2em;
+    line-height: 2em;
+    font-family: 'Karla';
+}
+
+.menu-items span {
+    display: block;
+}
+
+@media screen and (min-width: 600px) {
+    :root {
+        --margin: 30px;
+    }
+    input, textarea {
+        width: calc(var(--min-width));
+    }
+    button, input[type="submit"] {
+        width: auto;
+        padding-left: 30px;
+        padding-right: 30px;
+        min-width: var(--min-width);
+    }
+    img {
+        max-width: 400px;
+    }
+}

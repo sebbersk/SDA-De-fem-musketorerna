@@ -13,8 +13,8 @@
   <script src="/socket.io/socket.io.js"></script>
   <script src="/leaflet/leaflet.js"></script>
   <script src="js/script.js" defer></script>
-  <script src="/esri-leaflet/esri-leaflet.js"></script> 
-  <script src="/esri-leaflet-geocoder/esri-leaflet-geocoder.js"></script> 
+  <script src="/esri-leaflet/esri-leaflet.js"></script>
+  <script src="/esri-leaflet-geocoder/esri-leaflet-geocoder.js"></script>
   <script src="js/customer.js" defer></script>
 </head>
 <body>
@@ -30,10 +30,10 @@
             <span><a href="/driver" target="_blank">Driver</a></span>
         </div>
         </div>
-    </div> 
-    <!-- 
+    </div>
+    <!--
   <h1>
-    DELIVERY CUSTOMER 
+    DELIVERY CUSTOMER
   </h1>
   <p>Select pickup location first, then your parcel's destination</p>
   <div id="page">
@@ -46,7 +46,16 @@
   </div>
 -->
 <div id="pages">
-<div id="package-choose" v-bind:class="{active: index == 0}">
+
+  <div id="log-in-customer" v-bind:class ="{active: index == 0}">
+        <h1 class ="logo">Welcome to DelivMates! </h1>
+    <img class = "truck" src="img/delivery-img.jpg">
+    <button v-on:click="nextButton">Palce order(private individual)</button>
+    <button v-on:click="nextButton">Palce order(company)</button>
+    <button v-on:click="nextButton">Track Order</button>
+
+  </div>
+<div id="package-choose" v-bind:class="{active: index == 1}">
     <h2>Choose package</h2>
 <select>
     <option>Letter</option>
@@ -61,7 +70,7 @@
 </div>
 
 
-<div id="package-option" v-bind:class="{active: index == 1}">
+<div id="package-option" v-bind:class="{active: index == 2}">
     <img src="img/package.jpg">
     <h2>Choose delivery option</h2>
     <label class="radio">
@@ -74,7 +83,7 @@
 </div>
 
 
-<div id="info"  v-bind:class="{active: index == 2}">
+<div id="info"  v-bind:class="{active: index == 3}">
 <h2>Fill in your information</h2>
 <label>First Name</label><input required>
 <label>Last Name</label><input required>
@@ -86,7 +95,7 @@
 </div>
 
 
-<div id="payment"  v-bind:class="{active: index == 3}">
+<div id="payment"  v-bind:class="{active: index == 4}">
 <h2>Payment</h2>
 <label class="radio">
         <input type="radio" name="payment-type" value="credit-card" checked><span class="checkmark"></span><label>Credit Card</label>

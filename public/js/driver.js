@@ -135,3 +135,32 @@ var vm = new Vue({
     },
   }
 });
+
+var driverPages= new Vue({
+  el:'#pages',
+  data: {
+      index:0,
+  },
+  methods:{
+      nextButton: function() {
+          this.index++;
+          window.scrollTo(0,0);
+   }, 
+      toShipment:function(){
+        this.index=1;
+        window.scrollTo(0,0);
+      } 
+      }
+});
+
+function menu() {
+  document.querySelector('.menu').classList.toggle('active');
+}
+
+function openForm() {
+  document.getElementById("myForm").style.display = "block";
+}
+
+function closeForm() {
+  document.getElementById("myForm").style.display = "none";
+}

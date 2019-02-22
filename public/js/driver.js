@@ -140,16 +140,44 @@ var driverPages= new Vue({
   el:'#pages',
   data: {
       index:0,
+      orders:{},
+      driverId:null,
+  },
+  created: function () {
+    socket.on('initialize', function (data) {
+      // add marker for home base in the map
+     // this.baseMarker = L.marker(data.base, {icon: this.baseIcon}).addTo(this.map);
+      //this.baseMarker.bindPopup("This is the dispatch and routing center");
+
+      this.orders = data.orders;
+    }.bind(this));
   },
   methods:{
       nextButton: function() {
           this.index++;
           window.scrollTo(0,0);
+          console.log(this.driverId);
    }, 
       toShipment:function(){
         this.index=1;
         window.scrollTo(0,0);
-      } 
+      },
+      orderDroppedOff: function (order) {
+        // Update used capacity
+        
+        socket.emit("orderDroppedOff", order.orderId);
+      }, 
+      getIssue: function(){
+        const issue= document.querySelector('form');
+        const data= new FormData(issue);
+        const text= data.get('issue');
+        console.log(text);
+        issue.reset();
+      },
+      emitDriver: function(){
+        socket.emit("addDriver", {driverId:this.driverId});
+        this.nextButton();
+      }
       }
 });
 
@@ -164,3 +192,13 @@ function openForm() {
 function closeForm() {
   document.getElementById("myForm").style.display = "none";
 }
+
+const issue= document.querySelector('form');
+
+issue.addEventListener('submit',(event)=>{
+    event.preventDefault();
+    const data= new FormData(issue);
+    const text= data.get('issue');
+    console.log(text);
+    issue.reset();
+})

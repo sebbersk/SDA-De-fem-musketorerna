@@ -61,12 +61,12 @@ li{
 .form-popup {
     display: none;
     
-    z-index: 30em;
+    
   }
   
 .issueBox{
     bottom:1.5em;
-    
+    left:0;
     position: fixed;
     width: 100%;
   
@@ -75,3 +75,9 @@ textarea{
     width: 100%;
 }
 
+.map{
+    z-index:10em;
+    position: fixed;
+    top:7em;
+    width:100%;
+}

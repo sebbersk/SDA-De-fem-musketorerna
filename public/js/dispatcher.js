@@ -4,6 +4,51 @@
 'use strict';
 var socket = io();
 
+var model= new Vue({
+  el: '#pages',
+  data: {
+    orders:{},
+    drivers:{},
+  },
+  created: function(){
+    socket.on('initialize', function (data) {
+      this.orders = data.orders;
+      this.drivers = data.drivers;
+      // add marker for home base in the map
+     // this.baseMarker = L.marker(data.base, {icon: this.baseIcon}).addTo(this.map);
+      //this.baseMarker.bindPopup("This is the dispatch and routing center");
+      // add markers in the map for all orders
+      /*for (var orderId in data.orders) {
+        this.customerMarkers[orderId] = this.putCustomerMarkers(data.orders[orderId]);
+      }
+      // add driver markers in the map for all drivers
+      for (var driverId in data.drivers) {
+        this.driverMarkers[driverId] = this.putDriverMarker(data.drivers[driverId]);
+      }*/
+    }.bind(this));
+    socket.on('driverAdded', function (driver) {
+      this.$set(this.drivers, driver.driverId, driver);
+      
+    }.bind(this));
+    socket.on('driverUpdated', function (driver) {
+      this.drivers[driver.driverId] = driver;
+    }.bind(this));
+    socket.on('orderPlaced', function (order) {
+      this.$set(this.orders, order.orderId, order);
+      
+    }.bind(this));
+    socket.on('driverAssigned', function (order) {
+      this.$set(this.orders, order.orderId, order);
+    }.bind(this));
+},
+methods:{
+  assignDriver: function (order) {
+    socket.emit("driverAssigned", order);
+  }
+}
+})
+
+
 var vm = new Vue({
   el: '#page',
   data: {

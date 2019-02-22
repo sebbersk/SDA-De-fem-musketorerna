@@ -12,7 +12,7 @@
   <script src="/vue/vue.js"></script>
   <script src="/socket.io/socket.io.js"></script>
   <script src="/leaflet/leaflet.js"></script>
-  <script src="js/script.js" defer></script>
+  <!--<script src="js/script.js" defer></script>-->
   <script src="/esri-leaflet/esri-leaflet.js"></script>
   <script src="/esri-leaflet-geocoder/esri-leaflet-geocoder.js"></script>
   <script src="js/customer.js" defer></script>
@@ -57,16 +57,18 @@
   </div>
 <div id="package-choose" v-bind:class="{active: index == 1}">
     <h2>Choose package</h2>
-<select>
+<select id="pack">
     <option>Letter</option>
     <option>Package</option>
 </select>
 <h3>Receiver address</h3>
-<label>First Name</label><input required>
-<label>Last Name</label><input required>
-<label>Street address</label><input required>
-<label>Zip Code</label><input type="number" required>
-<button v-on:click="nextButton">Next</button>
+<form>
+<label>First Name</label><input id="fstNameR"type="text" required>
+<label>Last Name</label><input id="lastNameR"type="text"required>
+<label>Street address</label><input id="strNameR"type="text" required>
+<label>Zip Code</label><input id="zipR"type="number" required>
+<button v-on:click="saveReceiverData">Next</button>
+</form>
 </div>
 
 
@@ -77,21 +79,23 @@
         <input type="radio" name="delivery-option" value="regular" checked><span class="checkmark"></span><label>Regular (1-2 days)</label>
     </label>
     <label class="radio">
-        <input type="radio" name="delivery-option" value="express"><span class="checkmark"></span><label>Express (24 hours) + 40 SEK</label>
+        <input type="radio" v-model="express" name="delivery-option" value="express"><span class="checkmark"></span><label>Express (24 hours) + 40 SEK</label>
     </label>
-    <button v-on:click="nextButton">Next</button>
+    <button v-on:click="checkExpress">Next</button>
 </div>
 
 
 <div id="info"  v-bind:class="{active: index == 3}">
 <h2>Fill in your information</h2>
-<label>First Name</label><input required>
-<label>Last Name</label><input required>
-<label>Street address</label><input required>
-<label>Zip Code</label><input type="number" required>
-<label>E-mail</label><input type="email" required>
-<label>Telephone number</label><input type="number" required>
-<button v-on:click="nextButton">Next</button>
+<form>
+<label>First Name</label><input id="fstNameS" required>
+<label>Last Name</label><input id="lastNameS"required>
+<label>Street address</label><input id="strNameS"required>
+<label>Zip Code</label><input id="zipS" type="number" required>
+<label>E-mail</label><input id="emailS" type="email" required>
+<label>Telephone number</label><input id="phoneS" type="number" required>
+<button v-on:click="saveSenderData">Next</button>
+</form>
 </div>
 
 
@@ -107,8 +111,9 @@
     <label>Card Number</label><input type="number" placeholder="XXXX XXXX XXXX XXXX" required>
     <label>CVC</label><input type="number" placeholder="XXX" required>
     <label>Date</label><input placeholder="XX/XX" required>
-    <button v-on:click="nextButton">Next</button>
+    <button v-on:click="placeOrder">Next</button> 
 </div>
+<div v-bind:class="{active: index == 5}">Your order number is {{ orderId }}</div>
 </div>
 </body>
 </html>

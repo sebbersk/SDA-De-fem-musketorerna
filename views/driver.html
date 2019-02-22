@@ -64,10 +64,10 @@
   <div class="box" id="Login-driver" v-bind:class ="{active: index == 0}">
        
         <h3>Login driver</h3>
-          <label>Name</label><input type="text" value="Username" required>
+          <label>Driver ID</label><input v-model="driverId"type="number" value="ID" required>
           <label>Password</label><input type="password" required value="fakepassword">
           
-          <button id="login-button"v-on:click="nextButton">Login</button>
+          <button id="login-button" v-on:click="emitDriver">Login</button>
     </div>
 
     <div  id="Shipments" v-bind:class="{active: index ==1}">
@@ -75,25 +75,24 @@
           <label>Job:</label> <span>Pickup/delivery</span>
           <label>Date:</label> <span>Date</span>
           <hr></hr>
-          <div id="shipment-list" v-bind:class="{active: index ==1}">
+          <div id="shipment-list" v-bind:class="{active: index ==1}" v-for="order in orders" v-if="order.driverId == driverId">
             <ol>
-              <li>Address och Express <span id="shipSpace"><button id="moreInfo" v-on:click="nextButton">-></span></li>
-              <li>Address</li>
-              <li>Här ska man ha en for loop</li>
+              <li><a v-on:click="nextButton"> # {{ order.orderId}} From: {{ order.senData[2] }},  Destination: {{ order.recData[3] }},  Express: {{ order.express ? "Yes" : "No" }}</a></li>
             </ol>
           </div>
           
         <button id="logout-button" onclick="window.location.href='driver'">Log out</button>
         </div> 
             
-        <div id="More-info" v-bind:class="{active: index == 2}">
-        
-        <div id="shipmentInfo" class="box infoBox" v-bind:class="{active: index == 2}">
+       <div id="More-info" v-bind:class="{active: index == 2}">
+       
+       <div id="shipmentInfo" class="box infoBox" v-bind:class="{active: index == 2}">
             
             <p class="details">Costumer:</p> <span>Name of Customer</span> 
               <p class="details">Address:</p> <span>Address to pickup/Deliver</span>
                 <p class="details"> Telefon number:</p> <span>Number of customer</span>
                   <p class="details"  >Order number:</p> <span>The order Number</span>
+                    
         
         <hr></hr>
         <div v-bind:class="{active: index == 2}">
@@ -106,15 +105,17 @@
       
         <button id="backToShipment" v-on:click="toShipment">Back</button>
         </div>
-      
-        <div class="form-popup"id="myForm" >
-            <div class="box issueBox" v-bind:class="{active: index == 2}">
+
+        <form class="form-popup"id="myForm">
+        
+        <div class="box issueBox" v-bind:class="{active: index == 2}">
         <p>Why could this order not be completed?</p>
-        <textarea type="text" placeholder="Write the issue here" name="issue"required></textarea>
-        <button class="form-button">Submit</button>
-        <button  id="cancel"class="form-button" onclick="closeForm()">Cancel</button>
+        <textarea id="issueText"type="text" placeholder="Write the issue here" name="issue" required></textarea>
+        <button type="submit" class="form-button">Submit</button>
+        <button type="reset" id="cancel"class="form-button" onclick="closeForm()">Cancel</button>
             </div>
-    </div>
+   
+    </form>
     </div>
     
 

@@ -2,19 +2,22 @@
 /*global Vue, io */
 /* exported vm */
 'use strict';
+
+
 var socket = io();
 
 var vm = new Vue({
   el: '#page',
   data: {
     express: null,
-    orderId: null,
+    orderId: 1,
     map: null,
     fromMarker: null,
     destMarker: null,
     baseMarker: null,
     driverMarkers: {}
   },
+
   created: function () {
     socket.on('initialize', function (data) {
       // add marker for home base in the map
@@ -92,7 +95,7 @@ var vm = new Vue({
         this.destMarker = L.marker([event.latlng.lat, event.latlng.lng], {draggable: true}).addTo(this.map);
         this.destMarker.on("drag", this.moveMarker);
         this.connectMarkers = L.polyline(this.getPolylinePoints(), {color: 'blue'}).addTo(this.map);
-      } 
+      }
       // subsequent clicks assume moved markers
       else {
         this.moveMarker();
@@ -106,4 +109,44 @@ var vm = new Vue({
                                 */
     }
   }
+
 });
+
+function menu() {
+    document.querySelector('.menu').classList.toggle('active');
+}
+
+
+var pagesCustomer = new Vue({
+    el: '#pages',
+    data: {
+        index: 0,
+        count: 0,
+        track: 0,
+        trackc: 0,
+        trackp: 0,
+    },
+    methods: {
+        nextButton: function(index) {
+          this.index++;
+           window.scrollTo(0,0);
+        },
+        nextButtonCompany: function(count){
+        this.count++;
+          window.scrollTo(0,0);
+        },
+        nextButtonTrack: function(track){
+          this.track++;
+          window.scrollTo(0,0);
+        },
+        nextButtonTrackc: function(trackc){
+          this.trackc++;
+          window.scrollTo(0,0);
+        },
+        nextButtonTrackp: function(trackp){
+          this.trackp++;
+          window.scrollTo(0,0);
+        }
+      }
+
+    });

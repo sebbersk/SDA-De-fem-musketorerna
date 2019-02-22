@@ -80,6 +80,10 @@ img.full {
     display: initial;
 }
 
+#pay{
+  position: center; 
+}
+
 label {
     color: var(--color3);
     text-transform: uppercase;

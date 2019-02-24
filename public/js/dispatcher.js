@@ -8,7 +8,7 @@ var model= new Vue({
   el: '#pages',
   data: {
     orders:{},
-    drivers:{},
+    drivers:{}
   },
   created: function(){
     socket.on('initialize', function (data) {
@@ -44,11 +44,14 @@ var model= new Vue({
 methods:{
   assignDriver: function (order) {
     socket.emit("driverAssigned", order);
+  },
+  showDrivers: function(){
+    console.log(this.drivers);
   }
 }
 })
 
-
+/*
 var vm = new Vue({
   el: '#page',
   data: {
@@ -186,4 +189,4 @@ var vm = new Vue({
       socket.emit("driverAssigned", order);
     }
   }
-});
+});*/

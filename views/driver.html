@@ -64,7 +64,7 @@
   <div class="box" id="Login-driver" v-bind:class ="{active: index == 0}">
        
         <h3>Login driver</h3>
-          <label>Driver ID</label><input v-model="driverId"type="number" value="ID" required>
+          <label>Driver ID</label><input id='ID' v-model="driverId"type="number" required>
           <label>Password</label><input type="password" required value="fakepassword">
           
           <button id="login-button" v-on:click="emitDriver">Login</button>
@@ -75,9 +75,11 @@
           <label>Job:</label> <span>Pickup/delivery</span>
           <label>Date:</label> <span>Date</span>
           <hr></hr>
-          <div id="shipment-list" v-bind:class="{active: index ==1}" v-for="order in orders" v-if="order.driverId == driverId">
+          <div id="shipment-list" v-bind:class="{active: index ==1}" >
             <ol>
-              <li><a v-on:click="nextButton"> # {{ order.orderId}} From: {{ order.senData[2] }},  Destination: {{ order.recData[3] }},  Express: {{ order.express ? "Yes" : "No" }}</a></li>
+              <li v-for="order in orders" v-if="order.driverId == driverId"> 
+               <a v-on:click="showMoreInfo(order)"> # {{ order.orderId}} From: {{ order.senData[2] }},  Destination: {{ order.recData[3] }},  Express: {{ order.express ? "Yes" : "No" }}</a>
+              </li>
             </ol>
           </div>
           
@@ -88,14 +90,14 @@
        
        <div id="shipmentInfo" class="box infoBox" v-bind:class="{active: index == 2}">
             
-            <p class="details">Costumer:</p> <span>Name of Customer</span> 
-              <p class="details">Address:</p> <span>Address to pickup/Deliver</span>
-                <p class="details"> Telefon number:</p> <span>Number of customer</span>
-                  <p class="details"  >Order number:</p> <span>The order Number</span>
+              <p class="details">Costumer:</p> <span id="nameOfC">Name of Customer</span> 
+                <p class="details">Address:</p> <span id="AddOfC"> Address to pickup/Deliver</span>
+                  <p class="details"> Telefon number:</p> <span id="NumOfC">Number of customer</span>
+                    <p class="details"  >Order number:</p> <span id="OrOfC">The order Number</span>
                     
         
-        <hr></hr>
-        <div v-bind:class="{active: index == 2}">
+        <hr id="ship"></hr>
+        <div id="orderDone"v-bind:class="{active: index == 2}">
         <p id="centerOrd">Order Done</p>
         <button class="options">Yes</button><button class="options no" onclick="openForm()">No</button>
         </div>

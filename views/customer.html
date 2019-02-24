@@ -113,7 +113,17 @@
     <label>Date</label><input placeholder="XX/XX" required>
     <button v-on:click="placeOrder">Next</button> 
 </div>
-<div v-bind:class="{active: index == 5}">Your order number is {{ orderId }}</div>
+<div id="info"  v-bind:class="{active: index == 5}">
+  <img class = "payment" src="img/payment.png">
+<h2 class="pay">Payment was sucessful!</h2>
+<h5 class="pay"> Your order number is {{ orderId }}. Check your email for  an order confirmation</h5>
+
+<!--<div v-bind:class="{active: trackp == 0}">
+<button v-on:click="nextButtonTrackp">Track Order</button>
+</div>-->
+
+<button onclick="location.reload()"> Return to main </button>
+</div>
 </div>
 </body>
 </html>

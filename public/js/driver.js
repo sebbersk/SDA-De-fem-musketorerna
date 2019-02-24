@@ -4,7 +4,7 @@
 'use strict';
 var socket = io();
 
-var vm = new Vue({
+/*var vm = new Vue({
   el: '#page',
   data: {
     map: null,
@@ -134,14 +134,14 @@ var vm = new Vue({
       return {from: fromMarker, dest: destMarker, line: connectMarkers};
     },
   }
-});
+});*/
 
 var driverPages= new Vue({
   el:'#pages',
   data: {
       index:0,
       orders:{},
-      driverId:null,
+      driverId:1
   },
   created: function () {
     socket.on('initialize', function (data) {
@@ -151,12 +151,16 @@ var driverPages= new Vue({
 
       this.orders = data.orders;
     }.bind(this));
+    socket.on('currentQueue', function (data) {
+      this.orders = data.orders;
+      
+    }.bind(this));
   },
   methods:{
       nextButton: function() {
           this.index++;
           window.scrollTo(0,0);
-          console.log(this.driverId);
+          console.log(this.orders);
    }, 
       toShipment:function(){
         this.index=1;
@@ -175,7 +179,23 @@ var driverPages= new Vue({
         issue.reset();
       },
       emitDriver: function(){
-        socket.emit("addDriver", {driverId:this.driverId});
+        
+        socket.emit("addDriver", this.getDriverInfo());
+        console.log(this.getDriverInfo());
+        this.nextButton();
+      },
+      getDriverInfo: function () {
+        return  { driverId: this.driverId};
+      },
+      showMoreInfo: function(order){
+        var name= document.getElementById('nameOfC');
+        var address= document.getElementById('AddOfC');
+        var number= document.getElementById('NumOfC');
+        var orderN= document.getElementById('OrOfC');
+        name.innerHTML= order.recData[1];
+        address.innerHTML=order.recData[3];
+        number.innerHTML=order.senData[5];
+        orderN.innerHTML=order.orderId;
         this.nextButton();
       }
       }
@@ -186,11 +206,13 @@ function menu() {
 }
 
 function openForm() {
+  document.getElementById('orderDone').style.display="none";
   document.getElementById("myForm").style.display = "block";
 }
 
 function closeForm() {
   document.getElementById("myForm").style.display = "none";
+  document.getElementById('orderDone').style.display=" block";
 }
 
 const issue= document.querySelector('form');

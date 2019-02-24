@@ -182,9 +182,11 @@ var pages = new Vue({
       placeOrder: function() {
         socket.emit("placeOrder", this.order);
         this.nextButton();
-        
-        
-      }
+        },
+        returnMain:function(){
+          this.index=0;
+          window.scroll(0,0);
+        }
     
   }
 });

@@ -287,6 +287,9 @@ button:active, input[type="submit"]:active {
 .menu-items span {
     display: block;
 }
+.pay{
+    text-align: center;
+}
 
 @media screen and (min-width: 600px) {
     :root {

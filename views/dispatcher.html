@@ -28,13 +28,15 @@
           <li v-for="(detail, key) in order.orderDetails">
             {{ key + ": " + detail }}
           </li>
-        </ul>
+        </ul>-->
         <select v-on:change="assignDriver(order)" v-model="order.driverId">
           <option disabled value="">Assign a driver</option>
-          <option v-for="driver in drivers" :value="driver.driverId"># {{ driver.driverId}} </option>-->
+          <option v-for="driver in drivers">{{ driver.driverId}} </option>
+        </select> 
       </li>
     </ul>
-    <ul><li v-for="driver in drivers">{{driver}</li></ul>
+
   </div>
+  
 </body>
 </html>

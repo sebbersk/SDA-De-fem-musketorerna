@@ -121,7 +121,8 @@ var pages = new Vue({
       orderId: null,
       order: {}
   },
-  created: function () {
+    created: function () {
+	console.log((Math.random() * (0.120 - 0.0200) + 0.0200).toFixed(4))
     //socket.on('initialize', function (data) {
       // add marker for home base in the map
       //this.baseMarker = L.marker(data.base, {icon: this.baseIcon}).addTo(this.map);
@@ -175,7 +176,9 @@ var pages = new Vue({
         senderData[3]=zip;
         senderData[4]= email;
         senderData[5]=phone;
-        this.order.senData= senderData;
+          this.order.senData= senderData;
+	  this.order.fromLatLong = [(Math.random() * (59.8670 - 59.8320) + 59.8320).toFixed(4), (Math.random() * (17.7440 - 17.5600) + 17.5600).toFixed(4)];
+	  this.order.destLatLong = [(Math.random() * (59.8670 - 59.8320) + 59.8320).toFixed(4), (Math.random() * (17.7440 - 17.5600) + 17.5600).toFixed(4)];
         console.log(this.order);
         this.nextButton();
       },

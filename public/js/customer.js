@@ -6,11 +6,11 @@
 
 var socket = io();
 
-var vm = new Vue({
+/*var vm = new Vue({
   el: '#page',
   data: {
     express: null,
-    orderId: 1,
+    orderId: 0,
     map: null,
     fromMarker: null,
     destMarker: null,
@@ -107,10 +107,10 @@ var vm = new Vue({
                                 latLong: [event.target.getLatLng().lat, event.target.getLatLng().lng]
                                 });
                                 */
-    }
-  }
+    //}
+  //}
 
-});
+//});*/
 
 function menu() {
     document.querySelector('.menu').classList.toggle('active');
@@ -125,12 +125,74 @@ var pagesCustomer = new Vue({
         track: 0,
         trackc: 0,
         trackp: 0,
+        e1:0,
+        orderId: null,
+        express:null,
+        order:{}
+
+
+
+    },
+    created: function(){
+      socket.on('orderId', function(orderId){
+        this.orderId = orderId;
+      }.bind(this));
     },
     methods: {
         nextButton: function(index) {
           this.index++;
            window.scrollTo(0,0);
         },
+  saveReceiverData: function(){
+  event.preventDefault();
+  var packageOpt= document.getElementById('pack').value;
+  var fstName= document.getElementById('fstNameR').value;
+  var lastName= document.getElementById('lastNameR').value;
+  var street= document.getElementById('strNameR').value;
+  var zip= document.getElementById('zipR').value;
+  var receiverData=[];
+  receiverData[0]= packageOpt;
+  receiverData[1]= fstName;
+  receiverData[2]= lastName;
+  receiverData[3]=street;
+  receiverData[4]= zip;
+  this.order.recData=receiverData;
+ console.log(this.order);
+ this.nextButton();
+},
+checkExpress: function(){
+       var express= this.express ? true: false;
+       this.order.express= express;
+       console.log(this.order);
+       this.nextButton();
+     },
+     saveSenderData: function () {
+       event.preventDefault();
+       var fstName= document.getElementById('fstNameS').value;
+       var lastName= document.getElementById('lastNameS').value;
+       var street= document.getElementById('strNameS').value;
+       var zip= document.getElementById('zipS').value;
+       var email= document.getElementById('emailS').value;
+       var phone= document.getElementById('phoneS').value;
+       var senderData=[];
+       senderData[0]= fstName;
+       senderData[1]= lastName;
+       senderData[2]= street;
+       senderData[3]=zip;
+       senderData[4]= email;
+       senderData[5]=phone;
+       this.order.senData= senderData;
+       console.log(this.order);
+       this.nextButton();
+     },
+     placeOrder: function() {
+        socket.emit("placeOrder", this.order);
+        this.nextButton();
+        },
+        returnMain:function(){
+         this.index=0;
+         window.scroll(0,0);
+       },
         nextButtonCompany: function(count){
         this.count++;
           window.scrollTo(0,0);
@@ -147,6 +209,8 @@ var pagesCustomer = new Vue({
           this.trackp++;
           window.scrollTo(0,0);
         }
+
+
       }
 
     });

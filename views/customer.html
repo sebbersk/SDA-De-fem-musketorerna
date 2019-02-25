@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="/leaflet/leaflet.css">
   <link rel="stylesheet" href="/esri-leaflet-geocoder/esri-leaflet-geocoder.css">
   <link rel="stylesheet" href="css/shared.css">
-    <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/style.css">
 
 
   <script src="/vue/vue.js"></script>
@@ -50,6 +50,7 @@
 
 <div id="pages">
 
+
   <div id="log-in-customer" v-bind:class ="{active: index == 0} ">
 
         <h1 class ="logo">Welcome to DelivMates! </h1>
@@ -75,7 +76,9 @@
 
 
 
+
 <div class="co"id="package-company" v-bind:class="{active: count == 1}">
+  ´
     <h2>Choose package</h2>
 <select>
     <option>Letter</option>
@@ -83,26 +86,38 @@
 </select>
 <h3>Receiver address</h3>
 <label>Company Name</label><input optional>
-<label>First Name</label><input required>
+<label>First Name</label><input   required>
 <label>Last Name</label><input required>
-<label>Street address</label><input required>
+<label>Street address</label><input equired >
 <label>Zip Code</label><input type="number" required>
-<button v-on:click="nextButtonCompany">Next</button>
+<button  v-on:click="nextButtonCompany">Next</button>
+
 </div>
+</form>
+
+
+
+  <v-stepper v-model="e1">
+    <v-stepper-header>
+      <v-stepper-step :complete="e1< 1" step="1"> 1 </v-stepper-step>
+
+
 
 <div id="package-choose" v-bind:class="{active: index == 1}">
     <h2>Choose package</h2>
-<select>
+<select id="package">
     <option>Letter</option>
     <option>Package</option>
 </select>
 <h3>Receiver address</h3>
-<label>First Name</label><input required>
-<label>Last Name</label><input required>
-<label>Street address</label><input required>
-<label>Zip Code</label><input type="number" required>
-<button v-on:click="nextButton">Next</button>
+<label>First Name</label><input id="fstNameS" required>
+<label>Last Name</label><input  id="lastNameS" required>
+<label>Street address</label><input id="strNameS"required>
+<label>Zip Code</label><input id="zipR"type="number" type="number" required>
+<button  v-on:click="nextButton">Next</button>
 </div>
+
+
 
 <div id="t1" v-bind:class="{active: track == 1}">
 <h2>TRACK</h2>
@@ -112,6 +127,8 @@
 
 <div id="delivery-company" v-bind:class="{active: count == 2}">
     <img src="img/package.jpg">
+
+
     <h2>Choose delivery option</h2>
     <label class="radio">
         <input type="radio" name="delivery-option" value="regular" checked><span class="checkmark"></span><label>Regular (1-2 days)</label>
@@ -124,6 +141,9 @@
 
 
 
+      <v-stepper-step :complete="e1< 2" step="2"> 2 </v-stepper-step>
+
+
 
 <div id="package-option" v-bind:class="{active: index == 2}">
     <img src="img/package.jpg">
@@ -134,19 +154,23 @@
     <label class="radio">
         <input type="radio" name="delivery-option" value="express"><span class="checkmark"></span><label>Express (24 hours) + 40 SEK</label>
     </label>
-    <button v-on:click="nextButton">Next</button>
+    <button v-on:click="checkExpress">Next</button>
 </div>
+
+
+
+<v-stepper-step :complete="e1< 3" step="3"> 3 </v-stepper-step>
 
 
 <div id="info"  v-bind:class="{active: index == 3}">
 <h2>Fill in your information</h2>
-<label>First Name</label><input required>
-<label>Last Name</label><input required>
-<label>Street address</label><input required>
-<label>Zip Code</label><input type="number" required>
-<label>E-mail</label><input type="email" required>
-<label>Telephone number</label><input type="number" required>
-<button v-on:click="nextButton">Next</button>
+<label>First Name</label><input id="fstNameS" required>
+<label>Last Name</label><input id="lastNameS" required>
+<label>Street address</label><input id="strNameS"required>
+<label>Zip Code</label><input  id="zipS" type="number" required>
+<label>E-mail</label><input id="emailS"  type="email" required>
+<label>Telephone number</label><input id="phoneS" type="number" required>
+<button v-on:click="saveSenderData">Next</button>
 </div>
 
 
@@ -160,6 +184,9 @@
 <button v-on:click="nextButtonCompany">Next</button>
 </div>
 
+<v-stepper-step :complete="e1< 4" step="4"> 4 </v-stepper-step>
+
+
 <div id="payment"  v-bind:class="{active: index == 4}">
 <h2>Payment</h2>
 <label class="radio">
@@ -172,8 +199,9 @@
     <label>Card Number</label><input type="number" placeholder="XXXX XXXX XXXX XXXX" required>
     <label>CVC</label><input type="number" placeholder="XXX" required>
     <label>Date</label><input placeholder="XX/XX" required>
-    <button v-on:click="nextButton">Next</button>
+    <button v-on:click="placeOrder">Next</button>
 </div>
+
 
 <div  v-bind:class="{active: count == 4}">
 <h2>Payment</h2>
@@ -190,16 +218,46 @@
     <button v-on:click="nextButtonCompany">Next</button>
 </div>
 
+<v-stepper-step :complete="e1< 5" step="5"> 5 </v-stepper-step>
+</v-stepper-header>
+
 <div id="info"  v-bind:class="{active: index == 5}">
   <img class = "payment" src="img/payment.png">
-<h2 id="pay">Payment was sucessful!</h2>
-<h5> Check your email for  an order confirmation</h5>
+<center><h2 id="pay">Payment was sucessful!</h2></center>
+<center><h5 class ="pay"> Your order number is {{ orderId }} Check your email for  an order confirmation</h5></center>
+
+<v-stepper-items>
+        <v-stepper-content step="1">
+
+        </v-stepper-content>
+
+        <v-stepper-content step="2">
+
+
+       </v-stepper-content>
+       <v-stepper-content step="3">
+
+       </v-stepper-content>
+
+       <v-stepper-content step="4">
+
+       </v-stepper-content>
+
+       <v-stepper-content step="5">
+
+       </v-stepper-content>
+
+     </v-stepper-items>
+   </v-stepper>
+
 
 <div v-bind:class="{active: trackp == 0}">
 <button v-on:click="nextButtonTrackp">Track Order</button>
 </div>
 
-<button v-on:click="nextButton"> Return to main </button>
+<button onclick="location.reload()"> Return to main </button>
+
+<!--<button v-on:click="nextButton"> Return to main </button>-->
 </div>
 
 <div id="t2" v-bind:class="{active: trackp == 1}">
@@ -211,8 +269,8 @@
 
 <div id="info"  v-bind:class="{active: count == 5}">
   <img class = "payment" src="img/payment.png">
-<h2 id="pay">Payment was sucessful!</h2>
-<h5> Check your email for  an order confirmation</h5>
+ <center><h2 id="pay">Payment was sucessful!</h2></center>
+<center><h5> Check your email for  an order confirmation</h5></center>
 
 <div v-bind:class="{active: trackc == 0}">
 <button v-on:click="nextButtonTrackc">Track Order</button>

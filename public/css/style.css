@@ -292,6 +292,18 @@ button:active, input[type="submit"]:active {
     display: block;
 }
 
+.container{
+  width: 100%;
+  position: absolute;
+  z-index: 1;
+}
+.progressbar li{
+  float: left;
+  width: 20%;
+  position: relative;
+  text-align: center;
+}
+
 @media screen and (min-width: 600px) {
     :root {
         --margin: 30px;

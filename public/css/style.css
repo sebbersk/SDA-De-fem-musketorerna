@@ -80,6 +80,10 @@ img.full {
     display: initial;
 }
 
+#pay{
+  position: center; 
+}
+
 label {
     color: var(--color3);
     text-transform: uppercase;
@@ -293,6 +297,49 @@ button:active, input[type="submit"]:active {
 #popup{
     display: none;
     background-color: red;
+}
+
+#steppers {
+    width: calc(100% - (var(--margin) * 2));
+    margin-left: var(--margin);
+    display: none;
+    height: 30px;
+    margin-bottom: 15px;
+}
+#steppers.active {
+    display: block !important;
+}
+#steppers .line {
+    height: 1px;
+    width:calc( (100% - 162px) / 4 - 4px);
+    background-color: #0002;
+    display: inline-block;
+    vertical-align: middle;
+}
+.stepper {
+    border-radius: 100px;
+    background-color: #ccc;
+    color: white;
+    height: 30px;
+    width: 30px;
+    display: inline-block;
+    text-align:center;
+    line-height: 30px;
+}
+.stepper.active {
+    background-color: #66CF9D;
+}
+
+.container{
+  width: 100%;
+  position: absolute;
+  z-index: 1;
+}
+.progressbar li{
+  float: left;
+  width: 20%;
+  position: relative;
+  text-align: center;
 }
 
 #steppers {

@@ -2,25 +2,28 @@
 /*global Vue, io */
 /* exported vm */
 'use strict';
+
+
 var socket = io();
 
-var vm = new Vue({
+/*var vm = new Vue({
   el: '#page',
   data: {
     express: null,
-    orderId: null,
+    orderId: 0,
     map: null,
     fromMarker: null,
     destMarker: null,
     baseMarker: null,
     driverMarkers: {}
   },
+
   created: function () {
    /* socket.on('initialize', function (data) {
       // add marker for home base in the map
       this.baseMarker = L.marker(data.base, {icon: this.baseIcon}).addTo(this.map);
       this.baseMarker.bindPopup("This is the dispatch and routing center");
-    }.bind(this));*/
+    }.bind(this));
     socket.on('orderId', function (orderId) {
       this.orderId = orderId;
     }.bind(this));
@@ -92,7 +95,7 @@ var vm = new Vue({
         this.destMarker = L.marker([event.latlng.lat, event.latlng.lng], {draggable: true}).addTo(this.map);
         this.destMarker.on("drag", this.moveMarker);
         this.connectMarkers = L.polyline(this.getPolylinePoints(), {color: 'blue'}).addTo(this.map);
-      } 
+      }
       // subsequent clicks assume moved markers
       else {
         this.moveMarker();
@@ -104,16 +107,197 @@ var vm = new Vue({
                                 latLong: [event.target.getLatLng().lat, event.target.getLatLng().lng]
                                 });
                                 */
-    },
+
+   
     
-  }
+ 
+
+    //}
+  //}
+
+//});*/
+
+function menu() {
+    document.querySelector('.menu').classList.toggle('active');
+}
+
+
+var pagesCustomer = new Vue({
+    el: '#pages',
+    data: {
+        index: 0,
+        count: 0,
+        track: 0,
+        trackc: 0,
+        trackp: 0,
+        e1:0,
+        orderId: null,
+        express:null,
+        order:{}
+
+    },
+    created: function(){
+      socket.on('orderId', function(orderId){
+        this.orderId = orderId;
+      }.bind(this));
+    },
+    methods: {
+        nextButton: function(index) {
+          this.index++;
+           window.scrollTo(0,0);
+        },
+  saveReceiverData: function(){
+  event.preventDefault();
+  var packageOpt= document.getElementById('pack').value;
+  var fstName= document.getElementById('fstNameR').value;
+  var lastName= document.getElementById('lastNameR').value;
+  var street= document.getElementById('strNameR').value;
+  var zip= document.getElementById('zipR').value;
+    if(fstName.toString().trim() == '' || lastName.toString().trim()==''||street.toString().trim()=='' || zip.toString().trim()==''){
+          this.popUp()
+          return;
+
+        }
+
+  var receiverData=[];
+  receiverData[0]= packageOpt;
+  receiverData[1]= fstName;
+  receiverData[2]= lastName;
+  receiverData[3]=street;
+  receiverData[4]= zip;
+  this.order.recData=receiverData;
+ console.log(this.order);
+ this.nextButton();
+},
+checkExpress: function(){
+       var express= this.express ? true: false;
+       this.order.express= express;
+       console.log(this.order);
+       this.nextButton();
+     },
+     checkExpressC: function(){
+            var express= this.express ? true: false;
+            this.order.express= express;
+            console.log(this.order);
+            this.nextButtonCompany();
+          },
+
+     saveSenderData: function () {
+       event.preventDefault();
+       var fstName= document.getElementById('fstNameS').value;
+       var lastName= document.getElementById('lastNameS').value;
+       var street= document.getElementById('strNameS').value;
+       var zip= document.getElementById('zipS').value;
+       var email= document.getElementById('emailS').value;
+       var phone= document.getElementById('phoneS').value;
+       var senderData=[];
+       senderData[0]= fstName;
+       senderData[1]= lastName;
+       senderData[2]= street;
+       senderData[3]=zip;
+       senderData[4]= email;
+       senderData[5]=phone;
+       this.order.senData= senderData;
+       this.order.senData= senderData;
+        this.order.fromLatLong = [(Math.random() * (59.8670 - 59.8320) + 59.8320).toFixed(4), (Math.random() * (17.7440 - 17.5600) + 17.5600).toFixed(4)];
+	      this.order.destLatLong = [(Math.random() * (59.8670 - 59.8320) + 59.8320).toFixed(4), (Math.random() * (17.7440 - 17.5600) + 17.5600).toFixed(4)];
+       console.log(this.order);
+       this.nextButton();
+     },
+     saveReceiverDataCompany: function(){
+     event.preventDefault();
+     var packageOptC= document.getElementById('packC').value;
+     var compName = document.getElementById('compNameX').value;
+     var fName= document.getElementById('fNameX').value;
+     var lName= document.getElementById('lNameX').value;
+     var streetA= document.getElementById('sNameX').value;
+     var zipA= document.getElementById('zipR').value;
+     var saveReceiverDataCompany=[];
+     receiverData[0]= packageOptC;
+     receiverData[2]= fName;
+     receiverData[3]= fName;
+     receiverData[4]= lName;
+     receiverData[5]=streetA;
+     receiverData[6]= zipA;
+     this.order.recData=saveReceiverDataCompany;
+    console.log(this.order);
+    this.nextButtonCompany();
+  },
+  nextButtonCompany: function(count){
+  this.count++;
+    window.scrollTo(0,0);
+  },
+  saveSenderDataCompany: function () {
+    event.preventDefault();
+    var compName = document.getElementById('compNameX').value;
+    var fName= document.getElementById('fNameX').value;
+    var lName= document.getElementById('lNameX').value;
+    var streetA= document.getElementById('sNameX').value;
+    var zipA= document.getElementById('zipR').value;
+    var emailA= document.getElementById('emailX').value;
+    var phoneA= document.getElementById('phoneX').value;
+    var saveSenderDataCompany=[];
+    senderData[0]= fName;
+    senderData[1]= fName;
+    senderData[2]= lName;
+    senderData[3]= streetA;
+    senderData[4]=zipA;
+    senderData[5]= emailA;
+    senderData[6]=phoneA;
+    this.order.senData= saveSenderDataCompany;
+    console.log(this.order);
+    this.nextButtonCompany();
+  },
+     placeOrder: function() {
+        socket.emit("placeOrder", this.order);
+        this.nextButton();
+        },
+        returnMain:function(){
+         this.index=0;
+         window.scroll(0,0);
+       },
+       placeOrderCompany: function() {
+          socket.emit("placeOrder", this.order);
+          this.nextButtonCompany();
+          },
+          returnMain:function(){
+           this.count=0;
+           window.scroll(0,0);
+         },
+        nextButtonTrack: function(track){
+          this.track++;
+          window.scrollTo(0,0);
+        },
+        nextButtonTrackc: function(trackc){
+          this.trackc++;
+          window.scrollTo(0,0);
+        },
+        nextButtonTrackp: function(trackp){
+          this.trackp++;
+          window.scrollTo(0,0);
+        },
+        popUp: async function(){
+          var popup=document.getElementById('popup');
+          popup.style.display= "block";
+          await sleep(2000);
+          popup.style.display="none";
+        }
+
+
+      }
+
+    });
+
+    window.addEventListener('popstate', function(event) {
+  pagesCustomer.index--;
+
 });
 
 function menu() {
   document.querySelector('.menu').classList.toggle('active');
 }
 
-var pages = new Vue({
+/*var pages = new Vue({
   el: '#pages',
   data: {
       index: 0,
@@ -215,7 +399,7 @@ var pages = new Vue({
 
 window.addEventListener('popstate', function(event) {
   pagesCustomer.index--;
-}); 
+}); */
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));

@@ -135,14 +135,29 @@ var pages = new Vue({
       nextButton: function() {
           this.index++;
           window.scrollTo(0,0);
+          history.pushState(null,"index",null);
+      },
+      popUp: async function(){
+        var popup=document.getElementById('popup');
+        popup.style.display= "block";
+        await sleep(2000);
+        popup.style.display="none";
+
+        
       },
       saveReceiverData: function(){
-        event.preventDefault();
+       event.preventDefault();
         var packageOpt= document.getElementById('pack').value;
         var fstName= document.getElementById('fstNameR').value;
         var lastName= document.getElementById('lastNameR').value;
         var street= document.getElementById('strNameR').value;
         var zip= document.getElementById('zipR').value;
+        if(fstName.toString().trim() == '' || lastName.toString().trim()==''||street.toString().trim()=='' || zip.toString().trim()==''){
+          this.popUp()
+          return;
+
+        }
+       
         var receiverData=[];
         receiverData[0]= packageOpt;
         receiverData[1]= fstName;
@@ -153,6 +168,8 @@ var pages = new Vue({
         this.order.recData=receiverData;
         console.log(this.order);
         this.nextButton();
+       
+        
       },
       checkExpress: function(){
         var express= this.express ? true: false;
@@ -176,8 +193,12 @@ var pages = new Vue({
         senderData[4]= email;
         senderData[5]=phone;
         this.order.senData= senderData;
+        this.order.fromLatLong = [(Math.random() * (59.8670 - 59.8320) + 59.8320).toFixed(4), (Math.random() * (17.7440 - 17.5600) + 17.5600).toFixed(4)];
+	      this.order.destLatLong = [(Math.random() * (59.8670 - 59.8320) + 59.8320).toFixed(4), (Math.random() * (17.7440 - 17.5600) + 17.5600).toFixed(4)];
+
         console.log(this.order);
         this.nextButton();
+        
       },
       placeOrder: function() {
         socket.emit("placeOrder", this.order);
@@ -191,3 +212,11 @@ var pages = new Vue({
   }
 });
 
+
+window.addEventListener('popstate', function(event) {
+  pagesCustomer.index--;
+}); 
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}

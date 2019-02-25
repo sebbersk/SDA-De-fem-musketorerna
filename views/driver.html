@@ -99,7 +99,7 @@
         <hr id="ship"></hr>
         <div id="orderDone"v-bind:class="{active: index == 2}">
         <p id="centerOrd">Order Done</p>
-        <button class="options">Yes</button><button class="options no" onclick="openForm()">No</button>
+        <button class="options" v-on:click="orderDroppedOff">Yes</button><button class="options no" onclick="openForm()">No</button>
         </div>
        
        

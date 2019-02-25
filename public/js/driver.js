@@ -141,7 +141,9 @@ var driverPages= new Vue({
   data: {
       index:0,
       orders:{},
-      driverId:1
+      driverId:1,
+      driverLocation: null,
+      recentOrder: null
   },
   created: function () {
     socket.on('initialize', function (data) {
@@ -179,25 +181,45 @@ var driverPages= new Vue({
         issue.reset();
       },
       emitDriver: function(){
-        
+        this.driverLocation={ "lat": 59.84091407485801 + this.randomNum() , "lng": 17.64924108548685 + this.randomNum()};
         socket.emit("addDriver", this.getDriverInfo());
         console.log(this.getDriverInfo());
         this.nextButton();
       },
       getDriverInfo: function () {
-        return  { driverId: this.driverId};
+        return  { driverId: this.driverId,
+                  latLong:this.driverLocation};
       },
       showMoreInfo: function(order){
         var name= document.getElementById('nameOfC');
         var address= document.getElementById('AddOfC');
         var number= document.getElementById('NumOfC');
-        var orderN= document.getElementById('OrOfC');
+        var orderN= document.getElementById('OrOfC'); 
         name.innerHTML= order.recData[1];
         address.innerHTML=order.recData[3];
         number.innerHTML=order.senData[5];
         orderN.innerHTML=order.orderId;
+        this.recentOrder= order;
         this.nextButton();
+      },
+      randomNum:function() {
+        return Math.random() * (0.1) - 0.05;
+       },
+       orderDroppedOff: function () {
+        // Update used capacity
+        
+  
+        Vue.delete(this.orders, this.recentOrder.orderId);
+       
+       
+       
+       
+        socket.emit("orderDroppedOff", this.recentOrder.orderId);
+        this.recentOrder=null;
+        this.index=1;
       }
+
+      
       }
 });
 

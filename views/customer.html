@@ -46,6 +46,17 @@
   </div>
 -->
 <div id="pages">
+    <div id="steppers" v-bind:class="{active: index > 0}">
+        <span class="stepper" v-bind:class="{active: index > 0}">1</span>
+        <span class="line"></span>
+        <span class="stepper" v-bind:class="{active: index > 1}">2</span>
+        <span class="line"></span>
+        <span class="stepper" v-bind:class="{active: index > 2}">3</span>
+        <span class="line"></span>
+        <span class="stepper" v-bind:class="{active: index > 3}">4</span>
+        <span class="line"></span>
+        <span class="stepper" v-bind:class="{active: index > 4}">5</span>
+        </div>
 
   <div id="log-in-customer" v-bind:class ="{active: index == 0}">
         <h1 class ="logo">Welcome to DelivMates! </h1>
@@ -57,17 +68,21 @@
   </div>
 <div id="package-choose" v-bind:class="{active: index == 1}">
     <h2>Choose package</h2>
-<select id="pack">
+<form id="form1">
+<select name="pack"id="pack">
     <option>Letter</option>
     <option>Package</option>
 </select>
 <h3>Receiver address</h3>
-<form>
-<label>First Name</label><input id="fstNameR"type="text" required>
-<label>Last Name</label><input id="lastNameR"type="text"required>
-<label>Street address</label><input id="strNameR"type="text" required>
-<label>Zip Code</label><input id="zipR"type="number" required>
-<button v-on:click="saveReceiverData">Next</button>
+<div id="popup" >
+  <label class="popuptext" id="myPopup">Please write the required information</label>
+</div>
+
+<label>First Name</label><input name="fstname"id="fstNameR"type="text" required/>
+<label>Last Name</label><input  name="lstname"id="lastNameR"type="text"required/>
+<label>Street address</label><input name="strname"id="strNameR"type="text" required />
+<label>Zip Code</label><input name="zipcode" id="zipR"type="number" required/>
+<button type="submit" v-on:click="saveReceiverData">Next</button>
 </form>
 </div>
 
@@ -88,13 +103,13 @@
 <div id="info"  v-bind:class="{active: index == 3}">
 <h2>Fill in your information</h2>
 <form>
-<label>First Name</label><input id="fstNameS" required>
-<label>Last Name</label><input id="lastNameS"required>
-<label>Street address</label><input id="strNameS"required>
-<label>Zip Code</label><input id="zipS" type="number" required>
-<label>E-mail</label><input id="emailS" type="email" required>
+<label>First Name</label><input id="fstNameS" required="required">
+<label>Last Name</label><input id="lastNameS"required="required">
+<label>Street address</label><input id="strNameS"required="required">
+<label>Zip Code</label><input id="zipS" type="number" required="required">
+<label>E-mail</label><input id="emailS" type="email" required="required">
 <label>Telephone number</label><input id="phoneS" type="number" required>
-<button v-on:click="saveSenderData">Next</button>
+<button type="submit" v-on:click="saveSenderData">Next</button>
 </form>
 </div>
 
@@ -108,10 +123,10 @@
         <input type="radio" name="payment-type" value="klarna"><span class="checkmark"></span><label>Klarna</label>
     </label>
     <label>Card holders name</label><input placeholder="Name" required>
-    <label>Card Number</label><input type="number" placeholder="XXXX XXXX XXXX XXXX" required>
+    <label>Card Number</label><input placeholder="XXXX XXXX XXXX XXXX" required>
     <label>CVC</label><input type="number" placeholder="XXX" required>
     <label>Date</label><input placeholder="XX/XX" required>
-    <button v-on:click="placeOrder">Next</button> 
+    <button type="submit" class="placeOrder">Next</button> 
 </div>
 <div id="info"  v-bind:class="{active: index == 5}">
   <img class = "payment" src="img/payment.png">

@@ -48,8 +48,20 @@
     Your order number is {{ orderId }}
   </div>-->
 
-<div id="pages">
 
+
+<div id="pages">
+<div id="steppers" v-bind:class="{active: index > 0}">
+<span class="stepper" v-bind:class="{active: index > 0}">1</span>
+<span class="line"></span>
+<span class="stepper" v-bind:class="{active: index > 1}">2</span>
+<span class="line"></span>
+<span class="stepper" v-bind:class="{active: index > 2}">3</span>
+<span class="line"></span>
+<span class="stepper" v-bind:class="{active: index > 3}">4</span>
+<span class="line"></span>
+<span class="stepper" v-bind:class="{active: index > 4}">5</span>
+</div>
 
   <div id="log-in-customer" v-bind:class ="{active: index == 0} ">
 
@@ -97,11 +109,11 @@
 
 
 
-  <v-stepper v-model="e1">
+ <!-- <v-stepper v-model="e1">
     <v-stepper-header>
       <v-stepper-step :complete="e1< 1" step="1"> 1 </v-stepper-step>
 
-
+-->
 
 <div id="package-choose" v-bind:class="{active: index == 1}">
     <h2>Choose package</h2>
@@ -141,8 +153,8 @@
 
 
 
-      <v-stepper-step :complete="e1< 2" step="2"> 2 </v-stepper-step>
-
+  <!--    <v-stepper-step :complete="e1< 2" step="2"> 2 </v-stepper-step>
+-->
 
 
 <div id="package-option" v-bind:class="{active: index == 2}">
@@ -159,7 +171,7 @@
 
 
 
-<v-stepper-step :complete="e1< 3" step="3"> 3 </v-stepper-step>
+<!-- <v-stepper-step :complete="e1< 3" step="3"> 3 </v-stepper-step> -->
 
 
 <div id="info"  v-bind:class="{active: index == 3}">
@@ -184,7 +196,7 @@
 <button v-on:click="nextButtonCompany">Next</button>
 </div>
 
-<v-stepper-step :complete="e1< 4" step="4"> 4 </v-stepper-step>
+<!-- <v-stepper-step :complete="e1< 4" step="4"> 4 </v-stepper-step> -->
 
 
 <div id="payment"  v-bind:class="{active: index == 4}">
@@ -196,7 +208,7 @@
         <input type="radio" name="payment-type" value="klarna"><span class="checkmark"></span><label>Klarna</label>
     </label>
     <label>Card holders name</label><input placeholder="Name" required>
-    <label>Card Number</label><input type="number" placeholder="XXXX XXXX XXXX XXXX" required>
+    <label>Card Number</label><input placeholder="XXXX XXXX XXXX XXXX" required>
     <label>CVC</label><input type="number" placeholder="XXX" required>
     <label>Date</label><input placeholder="XX/XX" required>
     <button v-on:click="placeOrder">Next</button>
@@ -212,43 +224,21 @@
         <input type="radio" name="payment-type" value="klarna"><span class="checkmark"></span><label>Klarna</label>
     </label>
     <label>Card holders name</label><input placeholder="Name" required>
-    <label>Card Number</label><input type="number" placeholder="XXXX XXXX XXXX XXXX" required>
+    <label>Card Number</label><input placeholder="XXXX XXXX XXXX XXXX" required>
     <label>CVC</label><input type="number" placeholder="XXX" required>
     <label>Date</label><input placeholder="XX/XX" required>
     <button v-on:click="nextButtonCompany">Next</button>
 </div>
 
-<v-stepper-step :complete="e1< 5" step="5"> 5 </v-stepper-step>
-</v-stepper-header>
+<!-- <v-stepper-step :complete="e1< 5" step="5"> 5 </v-stepper-step>
+</v-stepper-header> -->
 
 <div id="info"  v-bind:class="{active: index == 5}">
   <img class = "payment" src="img/payment.png">
 <center><h2 id="pay">Payment was sucessful!</h2></center>
 <center><h5 class ="pay"> Your order number is {{ orderId }} Check your email for  an order confirmation</h5></center>
 
-<v-stepper-items>
-        <v-stepper-content step="1">
 
-        </v-stepper-content>
-
-        <v-stepper-content step="2">
-
-
-       </v-stepper-content>
-       <v-stepper-content step="3">
-
-       </v-stepper-content>
-
-       <v-stepper-content step="4">
-
-       </v-stepper-content>
-
-       <v-stepper-content step="5">
-
-       </v-stepper-content>
-
-     </v-stepper-items>
-   </v-stepper>
 
 
 <div v-bind:class="{active: trackp == 0}">

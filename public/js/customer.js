@@ -142,6 +142,7 @@ var pagesCustomer = new Vue({
         nextButton: function(index) {
           this.index++;
            window.scrollTo(0,0);
+            history.pushState(null,"index",null);
         },
   saveReceiverData: function(){
   event.preventDefault();
@@ -214,3 +215,8 @@ checkExpress: function(){
       }
 
     });
+
+
+window.addEventListener('popstate', function(event) {
+  pagesCustomer.index--;
+});

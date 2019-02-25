@@ -304,6 +304,37 @@ button:active, input[type="submit"]:active {
   text-align: center;
 }
 
+#steppers {
+    width: calc(100% - (var(--margin) * 2));
+    margin-left: var(--margin);
+    display: none;
+    height: 30px;
+    margin-bottom: 15px;
+}
+#steppers.active {
+    display: block !important;
+}
+#steppers .line {
+    height: 1px;
+    width:calc( (100% - 162px) / 4 - 4px);
+    background-color: #0002;
+    display: inline-block;
+    vertical-align: middle;
+}
+.stepper {
+    border-radius: 100px;
+    background-color: #ccc;
+    color: white;
+    height: 30px;
+    width: 30px;
+    display: inline-block;
+    text-align:center;
+    line-height: 30px;
+}
+.stepper.active {
+    background-color: #66CF9D;
+}
+
 @media screen and (min-width: 600px) {
     :root {
         --margin: 30px;

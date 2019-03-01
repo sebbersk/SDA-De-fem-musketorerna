@@ -400,7 +400,7 @@ button:active, input[type="submit"]:active {
     -webkit-user-select: none;
     user-select:none;
 }
-.order:nth-child(odd) {
+.order:nth-child(even) {
     background-color: #eee;
 }
 .order p, .ordersHead p, .order select{
@@ -418,11 +418,13 @@ button:active, input[type="submit"]:active {
 .order select {
     border:0;
     background-color:#0000;
-    height:1.5em;
+    height:2.5em;
     padding:0;
     pointer-events: initial;
     -webkit-user-select: initial;
     user-select:initial;
+    -webkit-appearance:none;
+    appearance:none;
 }
 .order.selected {
     background-color: #93ddba;
@@ -444,17 +446,42 @@ button:active, input[type="submit"]:active {
     border-radius: 10px;
     margin: 5px var(--margin) var(--margin) var(--margin);
     position: relative;
+    overflow: hidden;
 }
+
 .driverImg {
     height: 100px;
     position: absolute;
     right:0;
     top:25px;
+    z-index: 5;
 }
 
 .driverId {
+    background-color: #66CF9D;
+    width:100%;
+    margin:0;
+    padding-left:10px;
+    color:var(--color3);
+    height:40px;
+    line-height: 40px;
     position: absolute;
-    top:25px;
+    top:0px;
+}
+
+.assign {
+    position: absolute;
+    bottom:5px;
+    left:5px;
+    padding:5px;
+    color:var(--color2-dark);
+    font-weight: 600;
+    font-size:15px;
+    cursor:pointer;
+    display: none;
+}
+.assign.active {
+    display: block;
 }
 
 .dispatcherColumns {

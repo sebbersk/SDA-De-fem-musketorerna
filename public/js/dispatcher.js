@@ -11,7 +11,8 @@ var model= new Vue({
       drivers:{},
       customerMarkers: {},
       driverMarkers: {},
-      baseMarker: null
+      baseMarker: null,
+      availableAssign: false
   },
   created: function(){
     socket.on('initialize', function (data) {
@@ -134,6 +135,18 @@ var model= new Vue({
       }
     }
       e.classList.toggle('selected');
+      var selected = document.querySelectorAll('.selected');
+      if (selected.length == 0) this.availableAssign = false;
+      else this.availableAssign = true;
+    },
+    assignOrders: function(id) {
+          var selected = document.querySelectorAll('.selected');
+      for (var i=0; i<selected.length; i++) {
+        this.orders[selected[i].querySelector('.orderId').innerHTML].driverId = id;
+        this.assignDriver(this.orders[selected[i].querySelector('.orderId').innerHTML]);
+        selected[i].classList.remove('selected');
+        this.availableAssign = false;
+      }
     }
   
 }

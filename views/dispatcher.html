@@ -70,6 +70,7 @@
       <div class="driver" v-for="driver in drivers">
         <img class="driverImg" src="img/user.svg">
         <p class="driverId">Driver ID: {{driver.driverId}}</p>
+        <span class="assign" v-bind:class="{active: availableAssign}" v-on:click="assignOrders(driver.driverId)">Assign</span>
       </div>
     </div>
   </div>

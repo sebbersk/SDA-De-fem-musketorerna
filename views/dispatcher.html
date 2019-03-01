@@ -33,8 +33,8 @@
   <h1>
     Delivery dispatcher
   </h1>
-    <div id="my-map"></div>
-    <h1>Orders</h1>
+  <div class="dispatcherColumns">
+    <h2>Orders</h2>
     <div id="orders">
       <div class="ordersHead">
         <p class="orderId">Order ID</p>
@@ -60,6 +60,18 @@
         </select> -->
       </div>
     </div>
+  </div>
+  <div class="dispatcherColumns">
+    <h2>Drivers</h2>
+    <div id="drivers">
+      <div class="driver" v-for="driver in drivers">
+        <img class="driverImg" src="img/user.svg">
+        <p class="driverId">Driver ID: {{driver.driverId}}</p>
+      </div>
+    </div>
+  </div>
+  <h2>Map</h2>
+    <div id="my-map"></div>
 </div>
   
 </body>

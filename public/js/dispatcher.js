@@ -5,7 +5,7 @@
 var socket = io();
 
 var model= new Vue({
-  el: '#pages',
+  el: '#dispatcher',
   data: {
       orders:{},
       drivers:{},

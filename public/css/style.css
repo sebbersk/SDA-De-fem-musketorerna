@@ -28,7 +28,7 @@ body {
     padding-top:calc(var(--menu-height) + 20px);
 }
 
-p,label, blockquote, form, label,ul,ol,dl,fieldset,address {
+p,label, blockquote, label,ul,ol,dl,fieldset,address {
     margin: 0 var(--margin) 1em var(--margin);
 }
 h1,h2,h3,h4,h5,h6 {
@@ -206,6 +206,7 @@ button, input[type="submit"] {
     border-radius:100px;
     box-shadow: 0 3px 6px #0004;
     cursor: pointer;
+    display: block;
     transition: box-shadow 0.2s, scale 0.2s, brightness 0.2s;
 }
 button:active, input[type="submit"]:active {
@@ -371,6 +372,39 @@ button:active, input[type="submit"]:active {
 }
 .stepper.active {
     background-color: #66CF9D;
+}
+
+#orders {
+    width:600px;
+    height: 400px;
+    overflow: scroll;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px #0004;
+    margin: 0 var(--margin) 2em var(--margin);
+}
+
+.ordersHead {
+    background-color: #66CF9D;
+    color: var(--color3);
+    font-weight: 800;
+    border-bottom: 4px solid var(--color2-dark);
+    position: -webkit-sticky;
+    position: sticky;
+    top:0;
+}
+.order {
+    height: 2em;
+    width: 100%;
+}
+.order:nth-child(odd) {
+    background-color: #eee;
+}
+.order p, .ordersHead p{
+    display: inline-block;
+    line-height: 2em;
+    width:calc(20% - 14px);
+    margin:0;
+    margin-left:10px;
 }
 
 @media screen and (min-width: 600px) {

@@ -117,10 +117,6 @@ var socket = io();
 
 //});*/
 
-function menu() {
-    document.querySelector('.menu').classList.toggle('active');
-}
-
 
 var pagesCustomer = new Vue({
     el: '#pages',

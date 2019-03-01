@@ -287,6 +287,7 @@ button:active, input[type="submit"]:active {
     font-size: 2em;
     line-height: 2em;
     font-family: 'Karla';
+    -webkit-font-smoothing: initial;
 }
 
 .menu-items span {
@@ -454,7 +455,7 @@ button:active, input[type="submit"]:active {
     position: absolute;
     right:0;
     top:25px;
-    z-index: 5;
+    z-index: 1;
 }
 
 .driverId {

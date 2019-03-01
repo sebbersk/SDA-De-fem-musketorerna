@@ -2,65 +2,41 @@
 <html>
 <head>
   <meta charset="utf-8">
-
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Delivery dispatcher</title>
+  <title>DELIVERY DISPATCHER</title>
   <link rel="stylesheet" href="/leaflet/leaflet.css">
   <link rel="stylesheet" href="css/shared.css">
-    <link rel="stylesheet" href="/css/style.css">
-  <script src="js/script.js" defer></script>
   <script src="/vue/vue.js"></script>
   <script src="/socket.io/socket.io.js"></script>
   <script src="/leaflet/leaflet.js"></script>
   <script src="js/dispatcher.js" defer></script>
-
 </head>
 <body>
-        <div class="menu">
-        <div class="menu-button" onclick="menu()">
-            <span id="top"></span>
-            <span id="bottom"></span>
-        </div>
-        <div class="menu-items">
-            <div>
-            <span><a href="/" target="_blank">Customer</a></span>
-            <span><a href="/dispatcher" target="_blank">Dispatcher</a></span>
-            <span><a href="/driver" target="_blank">Driver</a></span>
-        </div>
-        </div>
-    </div>
-    <div id="dispatcher">
+  <a href="/" target="_blank">Open customer view</a> | 
+  <a href="/dispatcher" target="_blank">Open another dispatcher view</a> | 
+  <a href="/driver" target="_blank">Open driver view</a>
   <h1>
-    Delivery dispatcher
+    DELIVERY DISPATCHER
   </h1>
+  <div id="pages">
     <div id="my-map"></div>
     <h1>Orders</h1>
-    <div id="orders">
-      <div class="ordersHead">
-        <p class="orderId">Order ID</p>
-        <p class="orderFrom">From</p>
-        <p class="orderTo">To</p>
-        <p class="orderExpress">Express</p>
-        <p class="orderDriver">Driver ID</p> 
-      </div>
-      <div class="order" v-for="order in orders">
-        <p class="orderId">{{order.orderId}}</p>
-        <p class="orderFrom">{{ order.senData[2] }}</p>
-        <p class="orderTo">{{ order.recData[3]}}</p>
-        <p class="orderExpress">{{ order.express ? "Yes" : "No" }}</p>
-        <p class="orderDriver">{{order.driverId}}</p> 
+    <ul>
+      <li v-for="order in orders">
+        # {{ order.orderId}} From: {{ order.senData[2] }},  Destination: {{ order.recData[3] }},  Express: {{ order.express ? "Yes" : "No" }}
         <!--<ul>
           <li v-for="(detail, key) in order.orderDetails">
             {{ key + ": " + detail }}
           </li>
         </ul>-->
-        <!--<select v-on:change="assignDriver(order)" v-model="order.driverId">
+        <select v-on:change="assignDriver(order)" v-model="order.driverId">
           <option disabled value="">Assign a driver</option>
           <option v-for="driver in drivers">{{ driver.driverId}} </option>
-        </select> -->
-      </div>
-    </div>
-</div>
+        </select> 
+      </li>
+    </ul>
+
+  </div>
   
 </body>
 </html>

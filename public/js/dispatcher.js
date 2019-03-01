@@ -125,6 +125,15 @@ var model= new Vue({
       marker.bindPopup("Driver " + driver.driverId);
       marker.driverId = driver.driverId;
       return marker;
+    },
+    orderSelect: function (e) {
+      if (!event.shiftKey) {
+      var selected = document.querySelectorAll('.selected');
+      for (var i=0; i<selected.length; i++) {
+        selected[i].classList.remove('selected');
+      }
+    }
+      e.classList.toggle('selected');
     }
   
 }

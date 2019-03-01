@@ -396,16 +396,37 @@ button:active, input[type="submit"]:active {
 .order {
     height: 2.5em;
     width: 100%;
+    box-sizing: border-box;
+    -webkit-user-select: none;
+    user-select:none;
 }
 .order:nth-child(odd) {
     background-color: #eee;
 }
-.order p, .ordersHead p{
+.order p, .ordersHead p, .order select{
     display: inline-block;
     line-height: 2.5em;
     width:calc(20% - 14px);
+    min-width: 0;
     margin:0;
     margin-left:10px;
+    pointer-events: none;
+    -webkit-user-select: none;
+    user-select:none;
+}
+
+.order select {
+    border:0;
+    background-color:#0000;
+    height:1.5em;
+    padding:0;
+    pointer-events: initial;
+    -webkit-user-select: initial;
+    user-select:initial;
+}
+.order.selected {
+    background-color: #93ddba;
+    border-bottom: 1px solid white;
 }
 
 #drivers {

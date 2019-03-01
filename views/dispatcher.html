@@ -43,12 +43,15 @@
         <p class="orderExpress">Express</p>
         <p class="orderDriver">Driver ID</p> 
       </div>
-      <div class="order" v-for="order in orders">
+      <div class="order" v-for="order in orders" @click="orderSelect($event.target)">
         <p class="orderId">{{order.orderId}}</p>
         <p class="orderFrom">{{ order.senData[2] }}</p>
         <p class="orderTo">{{ order.recData[3]}}</p>
         <p class="orderExpress">{{ order.express ? "Yes" : "No" }}</p>
-        <p class="orderDriver">{{order.driverId}}</p> 
+        <select class="orderDriver" v-on:change="assignDriver(order)" v-model="order.driverId">
+          <option disabled value="">Assign a driver</option>
+          <option v-for="driver in drivers">{{ driver.driverId}} </option>
+        </select> 
         <!--<ul>
           <li v-for="(detail, key) in order.orderDetails">
             {{ key + ": " + detail }}

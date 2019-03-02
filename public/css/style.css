@@ -537,9 +537,6 @@ button:active, input[type="submit"]:active {
 }
 
 @media screen and (min-width: 600px) {
-    :root {
-        --margin: 100px;
-    }
     input, textarea {
         width: calc(var(--min-width));
     }
@@ -551,8 +548,11 @@ button:active, input[type="submit"]:active {
         max-width: 300px;
         margin-left: 150px;
     }
-
+    .radio label {
+        margin: 0 20px;
+    }
     #pages.customer {
+        --margin: 100px;
         background-color:white;
         max-width: 600px;
         margin-left: calc(50% - 300px);

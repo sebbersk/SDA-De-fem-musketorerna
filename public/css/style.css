@@ -51,8 +51,8 @@ h6 { font-size: .75em; }
 li {margin: 0 0 1em 1em;}
 
 img {
-    max-width:calc(100% - (var(--margin)*2));
-    margin: 0 var(--margin) 10px var(--margin);
+    max-width:calc(100% - (var(--margin)*4));
+    margin: 0 calc(var(--margin)*2) 10px calc(var(--margin)*2);
 }
 img.full {
     width:100vw;
@@ -60,8 +60,8 @@ img.full {
 }
 
 .truck{
-  max-width:calc(100% - (var(--margin)*2));
-  margin: 5 var(--margin) 30px var(--margin);
+  width:250px;
+  margin: 0 calc(50% - 125px) 30px calc(50% - 125px);
 
 }
 
@@ -72,12 +72,12 @@ img.full {
   margin-bottom: 50px;
 }
 
-#pages div {
+#pages > div {
     display: none;
 }
 
 #pages div.active {
-    display: initial;
+    display: block;
 }
 
 #pay{
@@ -327,6 +327,7 @@ button:active, input[type="submit"]:active {
     display: inline-block;
     text-align:center;
     line-height: 30px;
+    cursor: pointer;
 }
 .stepper.active {
     background-color: #66CF9D;
@@ -377,12 +378,12 @@ button:active, input[type="submit"]:active {
 
 #orders {
     width:calc(100% - var(--margin)*1.5);
-    min-width: 500px;
     height: 500px;
     overflow: scroll;
     border-radius: 10px;
     box-shadow: 0 5px 10px #0004;
     margin: 1em var(--margin) 2em var(--margin);
+    font-size:14px;
 }
 
 .ordersHead {
@@ -393,13 +394,15 @@ button:active, input[type="submit"]:active {
     position: -webkit-sticky;
     position: sticky;
     top:0;
+    white-space:nowrap;
 }
 .order {
     height: 2.5em;
-    width: 100%;
+    display: block;
     box-sizing: border-box;
     -webkit-user-select: none;
     user-select:none;
+    white-space:nowrap;
 }
 .order:nth-child(even) {
     background-color: #eee;
@@ -414,6 +417,22 @@ button:active, input[type="submit"]:active {
     pointer-events: none;
     -webkit-user-select: none;
     user-select:none;
+    white-space:nowrap;
+    overflow: hidden;
+    vertical-align: top;
+}
+
+.orderId {
+    width:60px !important;
+}
+.orderExpress {
+    width:50px !important;
+}
+.orderDriver {
+    width:60px !important;
+}
+.orderFrom, .orderTo{
+    width: calc((100% - 60px - 50px - 60px - 50px - 18px) / 2) !important;
 }
 
 .order select {
@@ -505,10 +524,21 @@ button:active, input[type="submit"]:active {
     z-index: 1;
     border-radius: 10px;
 }
+@media screen and (max-width: 1000px) {
+    .dispatcherColumns {
+    width:calc(100%);
+}
+    #orders {
+       width:calc(100% - var(--margin)*2);
+    }
+    #drivers {
+       width:calc(100% - var(--margin)*0.5);
+    }
+}
 
 @media screen and (min-width: 600px) {
     :root {
-        --margin: 30px;
+        --margin: 100px;
     }
     input, textarea {
         width: calc(var(--min-width));
@@ -518,6 +548,18 @@ button:active, input[type="submit"]:active {
         min-width: var(--min-width);
     }
     img {
-        max-width: 400px;
+        max-width: 300px;
+        margin-left: 150px;
     }
+
+    #pages.customer {
+        background-color:white;
+        max-width: 600px;
+        margin-left: calc(50% - 300px);
+        margin-bottom: 30px;
+        padding:30px 0;
+        border-radius: 10px;
+        box-shadow: 0 5px 10px #0004;
+    }
+
 }

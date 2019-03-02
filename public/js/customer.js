@@ -129,7 +129,10 @@ var pagesCustomer = new Vue({
         e1:0,
         orderId: null,
         express:null,
-        order:{}
+        order:{
+          senData: {},
+          recData: {}
+        }
 
     },
     created: function(){
@@ -138,22 +141,28 @@ var pagesCustomer = new Vue({
       }.bind(this));
     },
     methods: {
-        nextButton: function(index) {
+        nextButton: function(e) {
+          if (this.index > 0 && this.index != 5 && e.target.parentElement.checkValidity() == false) return;
+          else e.preventDefault();
           this.index++;
            window.scrollTo(0,0);
+           history.pushState({index: this.index, count: this.count, track: this.track, trackc: this.trackc, trackp: this.trackp},"index",null);
+        },
+        stepperClick: function(index) {
+          if (this.index==-1) this.count=index;
+          else this.index = index;
         },
   saveReceiverData: function(){
-  event.preventDefault();
   var packageOpt= document.getElementById('pack').value;
   var fstName= document.getElementById('fstNameR').value;
   var lastName= document.getElementById('lastNameR').value;
   var street= document.getElementById('strNameR').value;
   var zip= document.getElementById('zipR').value;
-    if(fstName.toString().trim() == '' || lastName.toString().trim()==''||street.toString().trim()=='' || zip.toString().trim()==''){
-          this.popUp()
-          return;
+    //if(fstName.toString().trim() == '' || lastName.toString().trim()==''||street.toString().trim()=='' || zip.toString().trim()==''){
+          //this.popUp()
+       //   return;
 
-        }
+       // }
 
   var receiverData=[];
   receiverData[0]= packageOpt;
@@ -163,23 +172,19 @@ var pagesCustomer = new Vue({
   receiverData[4]= zip;
   this.order.recData=receiverData;
  console.log(this.order);
- this.nextButton();
 },
 checkExpress: function(){
        var express= this.express ? true: false;
        this.order.express= express;
        console.log(this.order);
-       this.nextButton();
      },
      checkExpressC: function(){
             var express= this.express ? true: false;
             this.order.express= express;
             console.log(this.order);
-            this.nextButtonCompany();
           },
 
      saveSenderData: function () {
-       event.preventDefault();
        var fstName= document.getElementById('fstNameS').value;
        var lastName= document.getElementById('lastNameS').value;
        var street= document.getElementById('strNameS').value;
@@ -194,37 +199,36 @@ checkExpress: function(){
        senderData[4]= email;
        senderData[5]=phone;
        this.order.senData= senderData;
-       this.order.senData= senderData;
         this.order.fromLatLong = [(Math.random() * (59.8670 - 59.8320) + 59.8320).toFixed(4), (Math.random() * (17.7440 - 17.5600) + 17.5600).toFixed(4)];
 	      this.order.destLatLong = [(Math.random() * (59.8670 - 59.8320) + 59.8320).toFixed(4), (Math.random() * (17.7440 - 17.5600) + 17.5600).toFixed(4)];
        console.log(this.order);
-       this.nextButton();
      },
      saveReceiverDataCompany: function(){
-     event.preventDefault();
      var packageOptC= document.getElementById('packC').value;
      var compName = document.getElementById('compNameX').value;
      var fName= document.getElementById('fNameX').value;
      var lName= document.getElementById('lNameX').value;
      var streetA= document.getElementById('sNameX').value;
      var zipA= document.getElementById('zipR').value;
-     var saveReceiverDataCompany=[];
+     var receiverData=[];
      receiverData[0]= packageOptC;
-     receiverData[2]= fName;
-     receiverData[3]= fName;
-     receiverData[4]= lName;
-     receiverData[5]=streetA;
-     receiverData[6]= zipA;
-     this.order.recData=saveReceiverDataCompany;
+     receiverData[1]= fName;
+     receiverData[2]= lName;
+     receiverData[3]=streetA;
+     receiverData[4]= zipA;
+     receiverData[5]= compName;
+     this.order.recData=receiverData;
     console.log(this.order);
-    this.nextButtonCompany();
   },
-  nextButtonCompany: function(count){
+  nextButtonCompany: function(e){
+if (this.count > 0 && this.count != 5 && e.target.parentElement.checkValidity() == false) return;
+else e.preventDefault();
+    this.index=-1;
   this.count++;
     window.scrollTo(0,0);
+    history.pushState({index: this.index, count: this.count, track: this.track, trackc: this.trackc, trackp: this.trackp},"index",null);
   },
   saveSenderDataCompany: function () {
-    event.preventDefault();
     var compName = document.getElementById('compNameX').value;
     var fName= document.getElementById('fNameX').value;
     var lName= document.getElementById('lNameX').value;
@@ -232,45 +236,54 @@ checkExpress: function(){
     var zipA= document.getElementById('zipR').value;
     var emailA= document.getElementById('emailX').value;
     var phoneA= document.getElementById('phoneX').value;
-    var saveSenderDataCompany=[];
+    var senderData=[];
     senderData[0]= fName;
-    senderData[1]= fName;
-    senderData[2]= lName;
-    senderData[3]= streetA;
-    senderData[4]=zipA;
-    senderData[5]= emailA;
-    senderData[6]=phoneA;
-    this.order.senData= saveSenderDataCompany;
+    senderData[1]= lName;
+    senderData[2]= streetA;
+    senderData[3]=zipA;
+    senderData[4]= emailA;
+    senderData[5]=phoneA;
+    senderData[6]=compName;
+    this.order.senData= senderData;
     console.log(this.order);
-    this.nextButtonCompany();
   },
-     placeOrder: function() {
+     placeOrder: function(e) {
+        this.saveSenderData();
+        this.saveReceiverData();
+        this.checkExpress();
         socket.emit("placeOrder", this.order);
-        this.nextButton();
+        this.nextButton(e);
         },
         returnMain:function(){
-         this.index=0;
-         window.scroll(0,0);
+         location.reload();
        },
-       placeOrderCompany: function() {
+       placeOrderCompany: function(e) {
+        this.saveSenderDataCompany();
+        this.saveReceiverDataCompany();
+        this.checkExpressC();
           socket.emit("placeOrder", this.order);
-          this.nextButtonCompany();
+          this.nextButtonCompany(e);
           },
           returnMain:function(){
-           this.count=0;
-           window.scroll(0,0);
+           location.reload();
          },
         nextButtonTrack: function(track){
+          this.index=-1;
           this.track++;
           window.scrollTo(0,0);
+          history.pushState({index: this.index, count: this.count, track: this.track, trackc: this.trackc, trackp: this.trackp},"index",null);
         },
         nextButtonTrackc: function(trackc){
+          this.index=-1;
           this.trackc++;
           window.scrollTo(0,0);
+          history.pushState({index: this.index, count: this.count, track: this.track, trackc: this.trackc, trackp: this.trackp},"index",null);
         },
         nextButtonTrackp: function(trackp){
+          this.index=-1;
           this.trackp++;
           window.scrollTo(0,0);
+          history.pushState({index: this.index, count: this.count, track: this.track, trackc: this.trackc, trackp: this.trackp},"index",null);
         },
         popUp: async function(){
           var popup=document.getElementById('popup');
@@ -278,16 +291,10 @@ checkExpress: function(){
           await sleep(2000);
           popup.style.display="none";
         }
-
-
       }
 
     });
 
-    window.addEventListener('popstate', function(event) {
-  pagesCustomer.index--;
-
-});
 
 function menu() {
   document.querySelector('.menu').classList.toggle('active');
@@ -392,10 +399,15 @@ function menu() {
   }
 });
 
-
-window.addEventListener('popstate', function(event) {
-  pagesCustomer.index--;
-}); */
+*/
+history.replaceState({index: 0, count: 0, track: 0, trackc: 0, trackp: 0},"index",null);
+window.addEventListener('popstate', function(e) {
+  pagesCustomer.index = e.state.index;
+  pagesCustomer.count = e.state.count;
+  pagesCustomer.track = e.state.track;
+  pagesCustomer.trackc = e.state.trackc;
+  pagesCustomer.trackp = e.state.trackp;
+}); 
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));

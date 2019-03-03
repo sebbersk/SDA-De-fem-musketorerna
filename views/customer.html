@@ -85,7 +85,8 @@
 
 <div id="package-company" v-bind:class="{active: count == 1}"> 
     <h2>Choose package</h2>
-<select id="packC"  v-model="order.recData[0]">
+<select id="packC" v-model="order.recData[0]">
+    <option disabled selected>Choose package</option>
     <option>Letter</option>
     <option>Package</option>
 </select>
@@ -108,6 +109,7 @@
 <div id="package-choose" v-bind:class="{active: index == 1}">
     <h2>Choose package</h2>
 <select id="pack"  v-model="order.recData[0]">
+    <option selected disabled>Choose package</option>
     <option>Letter</option>
     <option>Package</option>
 </select>
@@ -204,15 +206,17 @@
 <h2>Payment</h2>
 <form>
 <label class="radio">
-        <input type="radio" name="payment-type" value="credit-card" checked><span class="checkmark"></span><label>Credit Card</label>
+        <input type="radio" name="payment-type" v-model="payment" id="credit-card" value="credit-card"><span class="checkmark"></span><label>Credit Card</label>
     </label>
 <label class="radio">
-        <input type="radio" name="payment-type" value="klarna"><span class="checkmark"></span><label>Klarna</label>
+        <input type="radio" name="payment-type" v-model="payment" value="klarna"><span class="checkmark"></span><label>Klarna</label>
     </label>
+    <div v-if="payment == 'credit-card'">
     <label>Card holders name</label><input placeholder="Name" required>
     <label>Card Number</label><input type="number" placeholder="XXXX XXXX XXXX XXXX" required>
     <label>CVC</label><input type="number" placeholder="XXX" required>
     <label>Date</label><input placeholder="XX/XX" required>
+    </div>
     <button type="sumbit" v-on:click="nextButton">Continue</button>
   </form>
 </div>
@@ -222,15 +226,17 @@
 <h2>Payment</h2>
 <form>
 <label class="radio">
-        <input type="radio" name="payment-type" value="credit-card" checked><span class="checkmark"></span><label>Credit Card</label>
+        <input type="radio" name="payment-type" v-model="payment" value="credit-card" checked><span class="checkmark"></span><label>Credit Card</label>
     </label>
 <label class="radio">
-        <input type="radio" name="payment-type" value="klarna"><span class="checkmark"></span><label>Klarna</label>
+        <input type="radio" name="payment-type" v-model="payment" value="klarna"><span class="checkmark"></span><label>Klarna</label>
     </label>
+    <div v-if="payment == 'credit-card'">
     <label>Card holders name</label><input placeholder="Name" required>
     <label>Card Number</label><input type="number" placeholder="XXXX XXXX XXXX XXXX" required>
     <label>CVC</label><input type="number" placeholder="XXX" required>
     <label>Date</label><input placeholder="XX/XX" required>
+</div>
     <button type="sumbit" v-on:click="nextButtonCompany">Continue</button>
   </form>
 </div>
@@ -254,10 +260,10 @@
   <h3>Reciever</h3>
   <label>Company Name</label><p>{{order.recData[5]}} {{order.recData[2]}}</p>
   <label>Name</label><p>{{order.recData[1]}} {{order.recData[2]}}</p>
-  <label>Address</label><p>{{order.recData[3]}}, {{order.recData[4]}}</p>
+  <label>Address</label><p>{{order.recData[3]}}<br>{{order.recData[4]}}</p>
   <h3>Sender</h3>
   <label>Company name</label><p>{{order.senData[6]}} {{order.senData[1]}}</p>
-<label>Address</label><p>{{order.senData[2]}}, {{order.senData[3]}}</p>
+<label>Address</label><p>{{order.senData[2]}}<br>{{order.senData[3]}}</p>
 <label>E-mail</label><p>{{order.senData[4]}}</p>
 <label>Phone</label><p>{{order.senData[5]}}</p>
   <button type="sumbit" v-on:click="placeOrderCompany($event)">Confirm</button>

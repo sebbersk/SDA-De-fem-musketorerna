@@ -127,11 +127,12 @@ var pagesCustomer = new Vue({
         trackc: 0,
         trackp: 0,
         e1:0,
+        payment: null,
         orderId: null,
         express:null,
         order:{
-          senData: {},
-          recData: {}
+          senData: [],
+          recData: ['Choose package']
         }
 
     },

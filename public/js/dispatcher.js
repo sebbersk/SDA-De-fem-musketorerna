@@ -26,13 +26,13 @@ var model= new Vue({
   for (var driverId in data.drivers) {
     this.driverMarkers[driverId] = this.putDriverMarker(data.drivers[driverId]);
   }
-    
+
     }.bind(this));
     socket.on('driverAdded', function (driver) {
       this.$set(this.drivers, driver.driverId, driver);
       this.driverMarkers[driver.driverId] = this.putDriverMarker(driver);
 
-      
+
     }.bind(this));
     socket.on('driverUpdated', function (driver) {
       this.drivers[driver.driverId] = driver;
@@ -40,7 +40,7 @@ var model= new Vue({
     socket.on('orderPlaced', function (order) {
 	this.$set(this.orders, order.orderId, order);
 	this.customerMarkers[order.orderId] = this.putCustomerMarkers(order);
-      
+
     }.bind(this));
     socket.on('driverAssigned', function (order) {
       this.$set(this.orders, order.orderId, order);
@@ -148,7 +148,7 @@ var model= new Vue({
         this.availableAssign = false;
       }
     }
-  
+
 }
 })
 
@@ -234,7 +234,7 @@ var vm = new Vue({
       iconSize: [40,40],
       iconAnchor: [20,20]
     });
-       
+
   },
   mounted: function () {
     // set up the map

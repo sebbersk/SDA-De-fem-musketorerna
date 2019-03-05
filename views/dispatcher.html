@@ -75,6 +75,7 @@
   <div class="dispatcherColumns">
     <h2>Drivers</h2>
     <div id="drivers">
+        <p v-if="Object.keys(drivers).length == 0">No available drivers</p>
       <div class="driver" v-for="driver in drivers">
         <img class="driverImg" src="img/user.svg">
         <p class="driverId">Driver ID: {{driver.driverId}}</p>

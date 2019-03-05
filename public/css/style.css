@@ -68,21 +68,13 @@ img.full {
 }
 
 .footer-left{
-  width: 30%;
+  width: 47%;
   float: left;
   font-size: 70%;
 }
 
-.footer-mid{
-  width: 30%;
-  margin-left: 2%;
-  float: left;
-  text-align: center;
-}
-
 .footer-right{
-  width: 30%;
-  margin-left: 2%;
+  width: 47%;
   float: left;
   text-align: right;
 
@@ -118,6 +110,10 @@ img.full {
   font-family: 'Karla';
   margin-top: 20px;
   margin-bottom: 50px;
+}
+
+#pages{
+  min-height: calc(100vh - 226px);
 }
 
 #pages > div {

@@ -102,6 +102,7 @@ img.full {
   padding-top: 50px;
 }
 
+
 .login-screen-box{
   width: 450px;
     margin: 1em auto 1em auto;
@@ -130,8 +131,11 @@ img.full {
   margin-top: 5px;
   margin-bottom: 20px;
   margin-right: 50px;
-  margin-left:0px; 
+  margin-left:0px;
 
+}
+.logD{
+  position: center;
 }
 
 .logo{

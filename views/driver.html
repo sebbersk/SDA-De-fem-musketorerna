@@ -63,12 +63,14 @@
   <div id="pages">
   <div class="box" id="Login-driver" v-bind:class ="{active: index == 0}">
 
-        <h3>Login driver</h3>
+        <h2>LogIn driver</h2>
+        <!--<img class = "truck" src="img/truck-logo.png">-->
           <label>Driver ID</label><input id='ID' v-model="driverId" type="number" required>
           <label>Password</label><input type="password" required value="fakepassword">
 
           <button id="login-button" v-on:click="emitDriver">Login</button>
     </div>
+
 
     <div  id="Shipments" v-bind:class="{active: index ==1}">
          <h1> Welcome John!</h1>

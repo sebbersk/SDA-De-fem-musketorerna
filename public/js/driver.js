@@ -4,7 +4,7 @@
 'use strict';
 var socket = io();
 
-var vm = new Vue({
+/*var vm = new Vue({
   el: '#page',
   data: {
     map: null,
@@ -21,7 +21,6 @@ var vm = new Vue({
       // add marker for home base in the map
       this.baseMarker = L.marker(data.base, {icon: this.baseIcon}).addTo(this.map);
       this.baseMarker.bindPopup("This is the dispatch and routing center");
-
       this.orders = data.orders;
     }.bind(this));
     socket.on('currentQueue', function (data) {
@@ -32,7 +31,6 @@ var vm = new Vue({
         }
       }
     }.bind(this));
-
     // these icons are not reactive
     this.driverIcon = L.icon({
       iconUrl: "img/driver.png",
@@ -53,7 +51,6 @@ var vm = new Vue({
   mounted: function () {
     // set up the map
     this.map = L.map('my-map').setView([59.8415,17.648], 13);
-
     // create the tile layer with correct attribution
     var osmUrl='http://{s}.tile.osm.org/{z}/{x}/{y}.png';
     var osmAttrib='Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors';
@@ -69,7 +66,7 @@ var vm = new Vue({
   methods: {
     getDriverInfo: function () {
       return  { driverId: this.driverId,
-        latLong: this.driverLocation.getLatLng(), 
+        latLong: this.driverLocation.getLatLng(),
         maxCapacity: this.maxCapacity,
         usedCapacity: this.usedCapacity
       };
@@ -100,14 +97,12 @@ var vm = new Vue({
     orderPickedUp: function (order) {
       // Update used capacity
       this.usedCapacity += order.orderDetails.spaceRequired;
-
-      // TODO: Update polyline, remove last segment  
+      // TODO: Update polyline, remove last segment
       socket.emit("orderPickedUp", order);
     },
     orderDroppedOff: function (order) {
       // Update used capacity
       this.usedCapacity -= order.orderDetails.spaceRequired;
-
       Vue.delete(this.orders, order.orderId);
       this.map.removeLayer(this.customerMarkers[order.orderId].from);
       this.map.removeLayer(this.customerMarkers[order.orderId].dest);
@@ -134,4 +129,115 @@ var vm = new Vue({
       return {from: fromMarker, dest: destMarker, line: connectMarkers};
     },
   }
+});*/
+
+var driverPages= new Vue({
+  el:'#pages',
+  data: {
+      index:0,
+      orders:{},
+      driverId:1,
+      driverLocation: null,
+      recentOrder: null
+  },
+  created: function () {
+    socket.on('initialize', function (data) {
+      // add marker for home base in the map
+     // this.baseMarker = L.marker(data.base, {icon: this.baseIcon}).addTo(this.map);
+      //this.baseMarker.bindPopup("This is the dispatch and routing center");
+
+      this.orders = data.orders;
+    }.bind(this));
+    socket.on('currentQueue', function (data) {
+      this.orders = data.orders;
+
+    }.bind(this));
+  },
+  methods:{
+      nextButton: function() {
+          this.index++;
+          window.scrollTo(0,0);
+          console.log(this.orders);
+   },
+      toShipment:function(){
+        this.index=1;
+        window.scrollTo(0,0);
+      },
+      orderDroppedOff: function (order) {
+        // Update used capacity
+
+        socket.emit("orderDroppedOff", order.orderId);
+      },
+      getIssue: function(){
+        const issue= document.querySelector('form');
+        const data= new FormData(issue);
+        const text= data.get('issue');
+        console.log(text);
+        issue.reset();
+      },
+      emitDriver: function(){
+        this.driverLocation={ "lat": 59.84091407485801 + this.randomNum() , "lng": 17.64924108548685 + this.randomNum()};
+        socket.emit("addDriver", this.getDriverInfo());
+        console.log(this.getDriverInfo());
+        this.nextButton();
+      },
+      getDriverInfo: function () {
+        return  { driverId: this.driverId,
+                  latLong:this.driverLocation};
+      },
+      showMoreInfo: function(order){
+        var name= document.getElementById('nameOfC');
+        var address= document.getElementById('AddOfC');
+        var number= document.getElementById('NumOfC');
+        var orderN= document.getElementById('OrOfC');
+        name.innerHTML= order.recData[1];
+        address.innerHTML=order.recData[3];
+        number.innerHTML=order.senData[5];
+        orderN.innerHTML=order.orderId;
+        this.recentOrder= order;
+        this.nextButton();
+      },
+      randomNum:function() {
+        return Math.random() * (0.1) - 0.05;
+       },
+       orderDroppedOff: function () {
+        // Update used capacity
+
+
+        Vue.delete(this.orders, this.recentOrder.orderId);
+
+
+
+
+        socket.emit("orderDroppedOff", this.recentOrder.orderId);
+        this.recentOrder=null;
+        this.index=1;
+      }
+
+
+      }
 });
+
+function menu() {
+  document.querySelector('.menu').classList.toggle('active');
+}
+
+function openForm() {
+  document.getElementById('orderDone').style.display="none";
+  document.getElementById("myForm").style.display = "block";
+}
+
+function closeForm() {
+  document.getElementById("myForm").style.display = "none";
+  document.getElementById('orderDone').style.display=" block";
+}
+
+const issue= document.querySelector('form');
+
+issue.addEventListener('submit',(event)=>{
+    event.preventDefault();
+    const data= new FormData(issue);
+    const text= data.get('issue');
+    console.log(text);
+    issue.reset();
+})

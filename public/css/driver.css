@@ -1,0 +1,83 @@
+
+#Login-driver{
+    top:10em;
+    
+    position: fixed;
+    width: 100%;
+  }
+  #login-button{
+    margin-top: 1em;
+      
+  }
+
+#Shipments{
+    top:5em;
+    left:2em;
+    position: fixed;
+}
+li{
+    margin-top: 1em;
+}
+#logout-button{
+    margin-top: 1em;
+}
+#moreInfo{
+    width:30%;
+}
+#shipSpace{
+    margin-left: 1em;
+}
+#backToShipment{
+    top:37em;
+    left:1em;
+    position: fixed;
+    
+    
+    
+}
+#shipmentInfo{
+    top: 5em;
+    
+    position: fixed;
+}
+.infoBox{
+    width: 100%;
+    
+}
+.details{
+    margin-top:1em;
+}
+#centerOrd{
+    text-align: center;
+}
+.options,.form-button{
+    margin-top:1em;
+    margin-left: 1em;
+}
+.no,#cancel{
+    background-color: red;
+}
+/* The popup form - hidden by default */
+.form-popup {
+    display: none;
+    
+    
+  }
+  
+.issueBox{
+    bottom:1.5em;
+    left:0;
+    position: fixed;
+    width: 100%;
+  
+} 
+textarea{
+    width: 100%;
+}
+
+.map{
+    z-index:10em;
+    position: fixed;
+    top:7em;
+    width:100%;
+}

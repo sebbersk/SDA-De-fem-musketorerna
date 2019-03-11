@@ -51,7 +51,7 @@
         <p class="orderExpress">Express</p>
         <p class="orderDriver">Driver ID</p>
       </div>
-      <div class="order" v-for="order in orders" @click="orderSelect($event.target)">
+      <div class="order" v-for="order in orders" v-on:dblclick="orderPopup(order.orderId)" v-on:click="orderSelect($event.target)">
         <p class="orderId">{{order.orderId}}</p>
         <p class="orderFrom">{{ order.senData[2] }}</p>
         <p class="orderTo">{{ order.recData[3]}}</p>
@@ -85,8 +85,24 @@
   </div>
   <h2>Map</h2>
     <div id="my-map"></div>
-</div>
+    <div id="orderPopup">
+        <div id="popupBg" onclick="document.querySelector('#orderPopup').classList.remove('active')"></div>
+        <div id="popupBox">
+    <h2>Order {{popup.orderId}}</h2>
+    <h5 v-if="popup.express">Express</h5>
+      <h3>Sender</h3>
+  <label>Name</label><p>{{popup.senData[0]}} {{popup.senData[1]}}</p>
+<label>Address</label><p>{{popup.senData[2]}}<br>{{popup.senData[3]}}</p>
+<label>E-mail</label><p>{{popup.senData[4]}}</p>
+<label>Phone</label><p>{{popup.senData[5]}}</p>
+    <h3>Reciever</h3>
+  <label>Name</label><p>{{popup.recData[1]}} {{popup.recData[2]}}</p>
+  <label>Address</label><p>{{popup.recData[3]}}<br>{{popup.recData[4]}}</p>
 
+</div>
+</div>
+</div>
+</div>
 <div class="footer">
   <div class="footer-left">
     <div>

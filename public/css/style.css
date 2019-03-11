@@ -591,6 +591,48 @@ button:active, input[type="submit"]:active {
     z-index: 1;
     border-radius: 10px;
 }
+    #confetti-canvas {
+        position: fixed;
+        height: 100vh;
+        width:100vw;
+        top:0;
+        left:0;   
+        display: none !important;
+        z-index: -1 !important;
+    }
+#orderPopup {
+    display: none;
+    position: fixed;
+    height: 100vh;
+    width:100vw;
+    top:0;
+    bottom:0;
+    z-index: 10;
+}
+#orderPopup.active {
+    display: block;
+}
+#popupBg {
+    display: block;
+    position: fixed;
+    background-color: #0009;
+    height: 100vh;
+    width:100vw;
+    top:0;
+    bottom:0;
+}
+#popupBox {
+    background-color:white;
+    width:400px;
+    height: 550px;
+    padding:30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px #0004;
+    position: relative;
+    margin-left: calc(50vw - 230px);
+    margin-top: calc(50vh - 305px);
+
+}
 @media screen and (max-width: 1000px) {
     .dispatcherColumns {
     width:calc(100%);
@@ -602,15 +644,7 @@ button:active, input[type="submit"]:active {
        width:calc(100% - var(--margin)*0.5);
     }
 }
-    #confetti-canvas {
-        position: fixed;
-        height: 100vh;
-        width:100vw;
-        top:0;
-        left:0;   
-        display: none !important;
-        z-index: -1 !important;
-    }
+
 @media screen and (min-width: 600px) {
     #confetti-canvas {
         display: block !important;

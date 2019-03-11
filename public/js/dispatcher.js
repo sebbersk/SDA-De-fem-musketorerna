@@ -7,6 +7,10 @@ var socket = io();
 var model= new Vue({
   el: '#dispatcher',
   data: {
+      popup: {
+          senData: [],
+          recData: ['Choose package']
+        },
       orders:{},
       drivers:{},
       customerMarkers: {},
@@ -147,6 +151,12 @@ var model= new Vue({
         selected[i].classList.remove('selected');
         this.availableAssign = false;
       }
+    },
+    orderPopup: function(id) {
+      var popup = document.querySelector("#orderPopup");
+      var order = this.orders[parseInt(id)];
+      this.popup=order;
+      popup.classList.add('active');
     }
 
 }

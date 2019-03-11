@@ -25,7 +25,7 @@ body {
     font-family: 'Lato';
     overflow-x: hidden;
     font-size:17px;
-    padding-top:calc(var(--menu-height) + 20px);
+    padding-top:calc(var(--menu-height));
 }
 
 p,label, blockquote, label,ul,ol,dl,fieldset,address {
@@ -59,22 +59,28 @@ img.full {
     margin: 0 0 0 10px;
 }
 
+#bodyCustomer {
+
+}
 .footer{
-  width: 100%;
+  width: 94%;
   z-index: 1;
   height: 50px;
-  margin: 30px 0px 10px 0px;
-  padding: 0% 3% 0% 3%;
+  margin: 0;
+  padding: 30px 3%;
+  background-color: #aaa;
+  color: #fff;
+  overflow: hidden;
 }
 
 .footer-left{
-  width: 47%;
+  width: 50%;
   float: left;
   font-size: 70%;
 }
 
 .footer-right{
-  width: 47%;
+  width: 50%;
   float: left;
   text-align: right;
 
@@ -102,7 +108,20 @@ img.full {
 .truck{
   width:250px;
   margin: 0 calc(50% - 125px) 30px calc(50% - 125px);
+  transform:rotate(0deg);
+  animation: truck 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
 
+@keyframes truck {
+    0%   {transform:rotate(0deg);}
+    100% {transform:rotate(360deg);}
+}
+.payment {
+    animation: success 0.9s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+@keyframes success {
+    0%   {transform:scale(0.5);}
+    100% {transform:scale(1);}
 }
 
 .logo{
@@ -112,8 +131,11 @@ img.full {
   margin-bottom: 50px;
 }
 
-#pages{
+#customer{
+    background-color: white;
   min-height: calc(100vh - 226px);
+  padding-top:20px;
+  padding-bottom: 30px;
 }
 
 #pages > div {
@@ -253,6 +275,7 @@ button, input[type="submit"] {
     display: block;
     transition: box-shadow 0.2s, scale 0.2s, brightness 0.2s;
 }
+
 button:active, input[type="submit"]:active {
     box-shadow: 0 0px 0px #0004;
     transform: scale(0.99);
@@ -579,8 +602,45 @@ button:active, input[type="submit"]:active {
        width:calc(100% - var(--margin)*0.5);
     }
 }
-
+    #confetti-canvas {
+        position: fixed;
+        height: 100vh;
+        width:100vw;
+        top:0;
+        left:0;   
+        display: none !important;
+        z-index: -1 !important;
+    }
 @media screen and (min-width: 600px) {
+    #confetti-canvas {
+        display: block !important;
+    }
+    #bodyCustomer .footer {
+    background-color: #96947E;
+    position: relative;
+}
+
+    #bodyCustomer {
+        padding-top:calc(var(--menu-height));
+    }
+    #customer:before {
+        content: '';
+        background-image: url('../img/bg.jpg');
+        background-size: cover;
+        background-position: bottom center;
+        z-index: -2;
+        position: fixed;
+        height: 100vh;
+        width:100vw;
+        top:0;
+        left:0;
+    }
+
+    #customer {
+        padding: 20px 0;
+        background-color: #0000;
+        min-height: calc(100vh - 150px - 56px);
+    }
     input, textarea {
         width: calc(var(--min-width));
     }
@@ -600,7 +660,6 @@ button:active, input[type="submit"]:active {
         background-color:white;
         max-width: 600px;
         margin-left: calc(50% - 300px);
-        margin-bottom: 30px;
         padding:30px 0;
         border-radius: 10px;
         box-shadow: 0 5px 10px #0004;

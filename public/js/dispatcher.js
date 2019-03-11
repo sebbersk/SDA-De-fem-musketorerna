@@ -131,10 +131,10 @@ var model= new Vue({
       if (!event.shiftKey) {
       var selected = document.querySelectorAll('.selected');
       for (var i=0; i<selected.length; i++) {
-        selected[i].classList.remove('selected');
+        if (selected[i] != e || selected.length > 1) selected[i].classList.remove('selected');
       }
     }
-      e.classList.toggle('selected');
+      if (e.classList.contains('order')) e.classList.toggle('selected');
       var selected = document.querySelectorAll('.selected');
       if (selected.length == 0) this.availableAssign = false;
       else this.availableAssign = true;

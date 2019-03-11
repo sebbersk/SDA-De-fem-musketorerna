@@ -254,6 +254,7 @@ else e.preventDefault();
         this.checkExpress();
         socket.emit("placeOrder", this.order);
         this.nextButton(e);
+        startConfetti();
         },
         returnMain:function(){
          location.reload();
@@ -264,6 +265,7 @@ else e.preventDefault();
         this.checkExpressC();
           socket.emit("placeOrder", this.order);
           this.nextButtonCompany(e);
+          startConfetti();
           },
           returnMain:function(){
            location.reload();
@@ -275,12 +277,14 @@ else e.preventDefault();
           history.pushState({index: this.index, count: this.count, track: this.track, trackc: this.trackc, trackp: this.trackp},"index",null);
         },
         nextButtonTrackc: function(trackc){
+          stopConfetti();
           this.index=-1;
           this.trackc++;
           window.scrollTo(0,0);
           history.pushState({index: this.index, count: this.count, track: this.track, trackc: this.trackc, trackp: this.trackp},"index",null);
         },
         nextButtonTrackp: function(trackp){
+          stopConfetti();
           this.index=-1;
           this.trackp++;
           window.scrollTo(0,0);

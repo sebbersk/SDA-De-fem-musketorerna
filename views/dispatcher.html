@@ -76,7 +76,8 @@
     <h2>Drivers</h2>
     <div id="drivers">
         <p v-if="Object.keys(drivers).length == 0">No available drivers</p>
-      <div class="driver" v-for="driver in drivers">
+	<div class="driver" v-for="driver in drivers">
+	  <p class="driverInfo">Current orders: {{ countOrders(driver.driverId) }}</p>
         <img class="driverImg" src="img/user.svg">
         <p class="driverId">Driver ID: {{driver.driverId}}</p>
         <span class="assign" v-bind:class="{active: availableAssign}" v-on:click="assignOrders(driver.driverId)">Assign</span>

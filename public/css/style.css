@@ -544,6 +544,12 @@ button:active, input[type="submit"]:active {
     z-index: 1;
 }
 
+.driverInfo {
+    position: absolute;
+    top:40px;
+    z-index: 1;
+}
+
 .driverId {
     background-color: #66CF9D;
     width:100%;

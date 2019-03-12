@@ -144,7 +144,7 @@ var model= new Vue({
       else this.availableAssign = true;
     },
     assignOrders: function(id) {
-          var selected = document.querySelectorAll('.selected');
+      var selected = document.querySelectorAll('.selected');
       for (var i=0; i<selected.length; i++) {
         this.orders[selected[i].querySelector('.orderId').innerHTML].driverId = id;
         this.assignDriver(this.orders[selected[i].querySelector('.orderId').innerHTML]);
@@ -157,6 +157,15 @@ var model= new Vue({
       var order = this.orders[parseInt(id)];
       this.popup=order;
       popup.classList.add('active');
+    },
+    countOrders: function(driverId) {
+        var counter = 0;
+	for (var orderId in this.orders) {
+	    if(this.orders[orderId].driverId == driverId) {
+		counter++;
+	    }
+	}
+	return counter;
     }
 
 }

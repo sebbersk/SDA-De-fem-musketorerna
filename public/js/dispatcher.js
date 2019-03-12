@@ -12,6 +12,7 @@ var model= new Vue({
           recData: ['Choose package']
         },
       orders:{},
+      filters: 0,
       drivers:{},
       customerMarkers: {},
       driverMarkers: {},

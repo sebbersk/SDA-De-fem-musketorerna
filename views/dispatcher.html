@@ -44,6 +44,7 @@
   <div class="dispatcherColumns">
     <h2>Orders</h2>
     <div id="orders">
+      <a href="#" @click.prevent="filters = 0">All</a> | <a href="#" @click.prevent="filters = 1">Unassigned orders</a> | <a href="#" @click.prevent="filters = 2">Assigned orders</a>
       <div class="ordersHead">
         <p class="orderId">Order ID</p>
         <p class="orderFrom">From</p>
@@ -51,7 +52,7 @@
         <p class="orderExpress">Express</p>
         <p class="orderDriver">Driver ID</p>
       </div>
-      <div class="order" v-for="order in orders" v-on:dblclick="orderPopup(order.orderId)" v-on:click="orderSelect($event.target)">
+      <div class="order" v-for="order in orders" v-on:dblclick="orderPopup(order.orderId)" v-on:click="orderSelect($event.target)" v-if="filters == 0">
         <p class="orderId">{{order.orderId}}</p>
         <p class="orderFrom">{{ order.senData[2] }}</p>
         <p class="orderTo">{{ order.recData[3]}}</p>
@@ -60,15 +61,26 @@
           <option disabled value="">Assign a driver</option>
           <option v-for="driver in drivers">{{ driver.driverId}} </option>
         </select>
-        <!--<ul>
-          <li v-for="(detail, key) in order.orderDetails">
-            {{ key + ": " + detail }}
-          </li>
-        </ul>-->
-        <!--<select v-on:change="assignDriver(order)" v-model="order.driverId">
+      </div>
+      <div class="order" v-for="order in orders" v-on:dblclick="orderPopup(order.orderId)" v-on:click="orderSelect($event.target)" v-if="filters == 1 && order.driverId == null">
+        <p class="orderId">{{order.orderId}}</p>
+        <p class="orderFrom">{{ order.senData[2] }}</p>
+        <p class="orderTo">{{ order.recData[3]}}</p>
+        <p class="orderExpress">{{ order.express ? "Yes" : "No" }}</p>
+        <select class="orderDriver" v-on:change="assignDriver(order)" v-model="order.driverId">
           <option disabled value="">Assign a driver</option>
           <option v-for="driver in drivers">{{ driver.driverId}} </option>
-        </select> -->
+        </select>
+      </div>
+      <div class="order" v-for="order in orders" v-on:dblclick="orderPopup(order.orderId)" v-on:click="orderSelect($event.target)" v-if="filters == 2 && order.driverId != null">
+        <p class="orderId">{{order.orderId}}</p>
+        <p class="orderFrom">{{ order.senData[2] }}</p>
+        <p class="orderTo">{{ order.recData[3]}}</p>
+        <p class="orderExpress">{{ order.express ? "Yes" : "No" }}</p>
+        <select class="orderDriver" v-on:change="assignDriver(order)" v-model="order.driverId">
+          <option disabled value="">Assign a driver</option>
+          <option v-for="driver in drivers">{{ driver.driverId}} </option>
+        </select>
       </div>
     </div>
   </div>

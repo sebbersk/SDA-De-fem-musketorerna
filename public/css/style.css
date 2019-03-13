@@ -114,6 +114,11 @@ img.full {
 
 }
 
+.truckD{
+  width: 250px;
+  margin: 0 calc(100%-80px) 30px calc(100%-80px); /* denna skalning verkar funka bra när driver vyn är mobilanpassad */
+}
+
 .truck-dispatch{
   object-fit: scale-down;
   width: 75px;

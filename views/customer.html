@@ -75,7 +75,7 @@
 
 <button v-on:click="nextButtonCompany">Place order(company)</button>
 
-    <button v-on:click="nextButtonTrack">Track Order</button>
+    <!--<button v-on:click="nextButtonTrack">Track Order</button>-->
   </div>
 
 
@@ -86,10 +86,18 @@
     <h2>Choose package</h2>
 <select id="packC" v-model="order.recData[0]">
     <option disabled selected>Choose package</option>
-    <option>Letter</option>
-    <option>Package</option>
+    <option>Package 0.5kg max, 49SEK</option>
+    <option>Package 1kg max, 59SEK</option>
+    <option>Package 2kg max, 69SEK</option>
+    <option>Package 3kg max, 79SEK</option>
 </select>
+
 <h3>Receiver address</h3>
+<h5>Fill in the address you want to send your order to!</h5>
+<div id="popup" >
+  <span class="popuptext" id="myPopup">Please write required information</span>
+</div>
+
 <form>
 <label>Company Name</label><input  v-model="order.recData[5]" id="compNameX" optional>
 <label>First Name</label><input  v-model="order.recData[1]" id="fNameX"  required>
@@ -109,10 +117,14 @@
     <h2>Choose package</h2>
 <select id="pack"  v-model="order.recData[0]">
     <option selected disabled>Choose package</option>
-    <option>Letter</option>
-    <option>Package</option>
+    <option>Package 0.5kg max, 49SEK</option>
+    <option>Package 1kg max, 59SEK</option>
+    <option>Package 2kg max, 69SEK</option>
+    <option>Package 3kg max, 79SEK</option>
 </select>
+
 <h3>Receiver address</h3>
+<h5>Fill in the address you want to send your order to!</h5>
 <div id="popup" >
   <span class="popuptext" id="myPopup">Please write required information</span>
 </div>
@@ -127,11 +139,11 @@
 </div>
 
 
-<div id="t1" v-bind:class="{active: track == 1}">
+<!--<div id="t1" v-bind:class="{active: track == 1}">
 <h2>TRACK</h2>
 <label>ENTER TRACKNUMBER</label><input required>
 <button v-on:click ="nextButtonTrack">View</button>
-</div>
+</div>-->
 
 <div id="delivery-company" v-bind:class="{active: count == 2}">
     <img src="img/package.jpg">
@@ -143,7 +155,7 @@
         <input type="radio" name="delivery-option" value="regular" checked><span class="checkmark"></span><label>Regular (1-2 days)</label>
     </label>
     <label class="radio">
-        <input type="radio" name="delivery-option" v-model="express"value="express"><span class="checkmark"></span><label>Express (24 hours) + 40 SEK</label>
+        <input type="radio" name="delivery-option" v-model="express"value="express"><span class="checkmark"></span><label>Express (24 hours) + 29SEK</label>
     </label>
     <button type="sumbit" v-on:click="nextButtonCompany">Continue</button>
   </form>
@@ -163,7 +175,7 @@
         <input type="radio" name="delivery-option" value="regular" checked><span class="checkmark"></span><label>Regular (1-2 days)</label>
     </label>
     <label class="radio">
-        <input type="radio" name="delivery-option" v-model="express"value="express"><span class="checkmark"></span><label>Express (24 hours) + 40 SEK</label>
+        <input type="radio" name="delivery-option" v-model="express"value="express"><span class="checkmark"></span><label>Express (24 hours) + 29SEK</label>
     </label>
     <button type="sumbit" v-on:click="nextButton($event)">Continue</button>
   </form>
@@ -203,6 +215,7 @@
 
 <div id="payment"  v-bind:class="{active: index == 4}">
 <h2>Payment</h2>
+<h4>Choose your payment method below</h4>
 <form>
 <label class="radio">
         <input type="radio" name="payment-type" v-model="payment" id="credit-card" value="credit-card"><span class="checkmark"></span><label>Credit Card</label>
@@ -275,20 +288,20 @@
 
 
 
-<div v-bind:class="{active: trackp == 0}">
+<!--<div v-bind:class="{active: trackp == 0}">
 <button v-on:click="nextButtonTrackp">Track Order</button>
-</div>
+</div>-->
 
 <button v-on:click="returnMain"> Return to main </button>
 
 
 </div>
 
-<div id="t2" v-bind:class="{active: trackp == 1}">
+<!--<div id="t2" v-bind:class="{active: trackp == 1}">
 <h2>TRACK</h2>
 <label>ENTER TRACKNUMBER</label><input required>
 <button v-on:click ="nextButtonTrackp">View</button>
-</div>
+</div>-->
 
 
 <div id="info"  v-bind:class="{active: count == 6}">
@@ -296,26 +309,26 @@
  <h2 id="pay">Payment was sucessful!</h2>
 <h5 id="payC"> Your order number is {{ orderId }}. Check your email for  an order confirmation</h5>
 
-<div v-bind:class="{active: trackc == 0}">
+<!--<div v-bind:class="{active: trackc == 0}">
 <button v-on:click="nextButtonTrackc">Track Order</button>
-</div>
+</div>-->
 
 <button v-on:click="returnMain"> Return to main </button>
 </div>
 
-<div id="t6" v-bind:class="{active: trackc == 1}">
+<!--<div id="t6" v-bind:class="{active: trackc == 1}">
 <h2>TRACK</h2>
 <label>ENTER TRACKNUMBER</label><input required>
 <button v-on:click ="nextButtonTrackc">View</button>
-</div>
+</div>-->
 
 
 
-<div id="t5" v-bind:class="{active: track == 6}">
+<!--<div id="t5" v-bind:class="{active: track == 6}">
 <h2>TRACK</h2>
 <label>ENTER TRACKNUMBER</label><input required>
 <button v-on:click ="nextButtonTrack">View</button>
-</div>
+</div>-->
 
 
 </div>

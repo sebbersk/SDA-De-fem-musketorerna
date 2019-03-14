@@ -13,7 +13,7 @@ var model= new Vue({
         },
       orders:{},
       filters: 0,
-      drivers:{},
+      drivers:{ },
       customerMarkers: {},
       driverMarkers: {},
       baseMarker: null,

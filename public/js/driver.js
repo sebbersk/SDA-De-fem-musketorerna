@@ -141,9 +141,11 @@ var driverPages= new Vue({
   data: {
       index:0,
       orders:{},
+      driverNames: ["Lance Sanders","Kiyan Kendall", "Wilf Knox", "Denise Levy", "Omar Partridge", "Yusef Evans", "Aneurin Houghton", "Verity Castillo", "Can Drake", "Rae Lin"],
       driverId:1,
       driverLocation: null,
-      recentOrder: null
+      recentOrder: null,
+      driverInfo: { driverId: this.driverId,latLong:this.driverLocation}
   },
   created: function () {
     socket.on('initialize', function (data) {
@@ -168,11 +170,11 @@ var driverPages= new Vue({
         this.index=1;
         window.scrollTo(0,0);
       },
-      orderDroppedOff: function (order) {
+      /*orderDroppedOff: function (order) {
         // Update used capacity
         
         socket.emit("orderDroppedOff", order.orderId);
-      }, 
+      },*/ 
       getIssue: function(){
         const issue= document.querySelector('form');
         const data= new FormData(issue);
@@ -182,13 +184,15 @@ var driverPages= new Vue({
       },
       emitDriver: function(){
         this.driverLocation={ "lat": 59.84091407485801 + this.randomNum() , "lng": 17.64924108548685 + this.randomNum()};
+        this.driverInfo.driverName = this.driverNames[this.driverId % 10];
+        this.driverInfo.latLong=this.driverLocation;
+        this.driverInfo.driverId=this.driverId;
         socket.emit("addDriver", this.getDriverInfo());
         console.log(this.getDriverInfo());
         this.nextButton();
       },
       getDriverInfo: function () {
-        return  { driverId: this.driverId,
-                  latLong:this.driverLocation};
+        return  this.driverInfo;
       },
       showMoreInfo: function(order){
         var name= document.getElementById('nameOfC');
@@ -207,16 +211,29 @@ var driverPages= new Vue({
        },
        orderDroppedOff: function () {
         // Update used capacity
+        console.log(this.driverLocation + " Before");
         
-  
+        this.driverLocation=this.recentOrder.destLatLong;
+        this.driverInfo.latLong=this.driverLocation;
+
+        
         Vue.delete(this.orders, this.recentOrder.orderId);
        
-       
-       
-       
+        console.log(this.driverLocation + " After");
+        socket.emit("updateDriver",this.getDriverInfo());
+        
         socket.emit("orderDroppedOff", this.recentOrder.orderId);
         this.recentOrder=null;
         this.index=1;
+  
+      },
+      cancelOrder: function(e){
+      
+        Vue.delete(this.orders,this.recentOrder.orderId);
+        socket.emit("orderCanceled", this.recentOrder.orderId);
+        this.recentOrder=null;
+        this.index=1;
+        closeForm();
       }
 
       

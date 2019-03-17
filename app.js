@@ -160,6 +160,10 @@ socket.on('moveDriver', function (driver) {
     // send updated info to all connected clients, note the use of io instead of socket
     io.emit('orderDroppedOff', orderId);
   });
+  socket.on("orderCanceled", function(orderId) {
+    console.log("Order",orderId,"could not be delivered");
+    io.emit("orderCanceled",orderId);
+  });
 });
 
 var server = http.listen(app.get('port'), function () {

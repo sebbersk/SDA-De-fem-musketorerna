@@ -5,13 +5,19 @@
 var socket = io();
 
 var model= new Vue({
-  el: '#pages',
+  el: '#dispatcher',
   data: {
+      popup: {
+          senData: [],
+          recData: ['Choose package']
+        },
       orders:{},
-      drivers:{},
+      filters: 0,
+      drivers:{ },
       customerMarkers: {},
       driverMarkers: {},
-      baseMarker: null
+      baseMarker: null,
+      availableAssign: false
   },
   created: function(){
     socket.on('initialize', function (data) {
@@ -25,21 +31,31 @@ var model= new Vue({
   for (var driverId in data.drivers) {
     this.driverMarkers[driverId] = this.putDriverMarker(data.drivers[driverId]);
   }
-    
+
     }.bind(this));
     socket.on('driverAdded', function (driver) {
       this.$set(this.drivers, driver.driverId, driver);
       this.driverMarkers[driver.driverId] = this.putDriverMarker(driver);
 
+
+    }.bind(this));
+    socket.on('orderCanceled', function (orderId) {
+      console.log(this.orders[orderId]);
       
+      this.orders[orderId].driverId=null;
+      this.$forceUpdate();
+      this.countOrders(this.orders[orderId].driverId);
     }.bind(this));
     socket.on('driverUpdated', function (driver) {
+      this.map.removeLayer(this.driverMarkers[driver.driverId]);
+      
       this.drivers[driver.driverId] = driver;
+      this.driverMarkers[driver.driverId]=this.putDriverMarker(driver);
     }.bind(this));
     socket.on('orderPlaced', function (order) {
 	this.$set(this.orders, order.orderId, order);
 	this.customerMarkers[order.orderId] = this.putCustomerMarkers(order);
-      
+
     }.bind(this));
     socket.on('driverAssigned', function (order) {
       this.$set(this.orders, order.orderId, order);
@@ -117,7 +133,7 @@ var model= new Vue({
       var destMarker = L.marker(order.destLatLong).addTo(this.map);
       destMarker.bindPopup(this.createPopup(order.orderId, order.orderDetails));
       destMarker.orderId = order.orderId;
-      var connectMarkers = L.polyline(this.getPolylinePoints(order), {color: 'blue'}).addTo(this.map);
+      var connectMarkers = L.polyline(this.getPolylinePoints(order), {color: 'var(--color2-dark)'}).addTo(this.map);
       return {from: fromMarker, dest: destMarker, line: connectMarkers};
     },
     putDriverMarker: function (driver) {
@@ -125,8 +141,44 @@ var model= new Vue({
       marker.bindPopup("Driver " + driver.driverId);
       marker.driverId = driver.driverId;
       return marker;
+    },
+    orderSelect: function (e) {
+      if (!event.shiftKey) {
+      var selected = document.querySelectorAll('.selected');
+      for (var i=0; i<selected.length; i++) {
+        if (selected[i] != e || selected.length > 1) selected[i].classList.remove('selected');
+      }
     }
-  
+      if (e.classList.contains('order')) e.classList.toggle('selected');
+      var selected = document.querySelectorAll('.selected');
+      if (selected.length == 0) this.availableAssign = false;
+      else this.availableAssign = true;
+    },
+    assignOrders: function(id) {
+      var selected = document.querySelectorAll('.selected');
+      for (var i=0; i<selected.length; i++) {
+        this.orders[selected[i].querySelector('.orderId').innerHTML].driverId = id;
+        this.assignDriver(this.orders[selected[i].querySelector('.orderId').innerHTML]);
+        selected[i].classList.remove('selected');
+        this.availableAssign = false;
+      }
+    },
+    orderPopup: function(id) {
+      var popup = document.querySelector("#orderPopup");
+      var order = this.orders[parseInt(id)];
+      this.popup=order;
+      popup.classList.add('active');
+    },
+    countOrders: function(driverId) {
+        var counter = 0;
+	for (var orderId in this.orders) {
+	    if(this.orders[orderId].driverId == driverId) {
+		counter++;
+	    }
+	}
+	return counter;
+    }
+
 }
 })
 
@@ -212,7 +264,7 @@ var vm = new Vue({
       iconSize: [40,40],
       iconAnchor: [20,20]
     });
-       
+
   },
   mounted: function () {
     // set up the map

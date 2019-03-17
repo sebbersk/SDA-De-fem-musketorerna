@@ -123,7 +123,7 @@ var model= new Vue({
       var destMarker = L.marker(order.destLatLong).addTo(this.map);
       destMarker.bindPopup(this.createPopup(order.orderId, order.orderDetails));
       destMarker.orderId = order.orderId;
-      var connectMarkers = L.polyline(this.getPolylinePoints(order), {color: 'blue'}).addTo(this.map);
+      var connectMarkers = L.polyline(this.getPolylinePoints(order), {color: 'var(--color2-dark)'}).addTo(this.map);
       return {from: fromMarker, dest: destMarker, line: connectMarkers};
     },
     putDriverMarker: function (driver) {

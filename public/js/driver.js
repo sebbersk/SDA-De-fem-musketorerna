@@ -141,6 +141,7 @@ var driverPages= new Vue({
   data: {
       index:0,
       orders:{},
+      driverNames: ["Lance Sanders","Kiyan Kendall", "Wilf Knox", "Denise Levy", "Omar Partridge", "Yusef Evans", "Aneurin Houghton", "Verity Castillo", "Can Drake", "Rae Lin"],
       driverId:1,
       driverLocation: null,
       recentOrder: null
@@ -187,7 +188,7 @@ var driverPages= new Vue({
         this.nextButton();
       },
       getDriverInfo: function () {
-        return  { driverId: this.driverId,
+        return  { driverId: this.driverId, driverName: this.driverNames[this.driverId % 10],
                   latLong:this.driverLocation};
       },
       showMoreInfo: function(order){

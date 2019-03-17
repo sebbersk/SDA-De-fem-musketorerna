@@ -523,7 +523,7 @@ button:active, input[type="submit"]:active {
     min-width: 500px;
     height: 500px;
     overflow-y: scroll;
-    overflow-x: hidden
+    overflow-x: hidden;
 }
 
 .driver {
@@ -542,12 +542,16 @@ button:active, input[type="submit"]:active {
     right:0;
     top:25px;
     z-index: 1;
+    border-radius: 50px;
 }
 
 .driverInfo {
     position: absolute;
-    top:40px;
+    top:45px;
+    left: 10px;
+    margin:0;
     z-index: 1;
+    font-size:0.9em;
 }
 
 .driverId {
@@ -556,10 +560,11 @@ button:active, input[type="submit"]:active {
     margin:0;
     padding-left:10px;
     color:var(--color3);
-    height:40px;
-    line-height: 40px;
+    height:35px;
+    line-height: 35px;
     position: absolute;
     top:0px;
+    font-size: 0.9em;
 }
 
 .assign {
@@ -586,6 +591,7 @@ button:active, input[type="submit"]:active {
 #dispatcher {
     width:100%;
     overflow-x: hidden;
+    margin-top: 20px;
 }
 
 #my-map {
@@ -638,6 +644,25 @@ button:active, input[type="submit"]:active {
     margin-left: calc(50vw - 230px);
     margin-top: calc(50vh - 305px);
 
+}
+#filters {
+    margin: 0 var(--margin);
+}
+#filters a{
+    color: #333;
+    text-decoration: none;
+    background-color:#ddd;
+    padding:0.5em 10px;
+    margin:0 3px;
+    border-radius: 5px;
+    font-size: 12px;
+}
+#filters a.active {
+    background-color: var(--color2);
+    font-weight:600;
+}
+.leaflet-container a {
+    color: var(--color2-dark);
 }
 @media screen and (max-width: 1000px) {
     .dispatcherColumns {

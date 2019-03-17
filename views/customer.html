@@ -51,7 +51,7 @@
 
 
   <div id="pages">
-<div id="steppers" v-bind:class="{active: index > 0}">
+<div id="steppers"v-if="index<10" v-bind:class="{active: index > 0}">
 <span class="stepper" v-bind:class="{active: index > 0}">1</span>
 <span class="line"></span>
 <span class="stepper" v-bind:class="{active: index > 1}">2</span>
@@ -75,14 +75,14 @@
   </div>
 
 
-    <div class="companylogin" v-bind:class ="{active:count == 0}">
+    <div class="companylogin"   v-bind:class ="{active:count == 0}">
 
 <button v-on:click="nextButtonCompany">Place order(company)</button>
   </div>
 
-    <div  v-bind:class ="{active: track == 0}">
+    <!--<div  v-bind:class ="{active: track == 0}">
     <button v-on:click="nextButtonTrack">Track Order</button>
-    </div>
+    </div>-->
 
   </div>
 
@@ -176,6 +176,7 @@
 
 <div id="info"  v-bind:class="{active: index == 3}">
 <h2>Fill in your information</h2>
+<form>
 <label>First Name</label><input id="fstNameS" required>
 <label>Last Name</label><input id="lastNameS" required>
 <label>Street address</label><input id="strNameS"required>
@@ -183,6 +184,7 @@
 <label>E-mail</label><input id="emailS"  type="email" required>
 <label>Telephone number</label><input id="phoneS" type="number" required>
 <button v-on:click="saveSenderData">Next</button>
+</form> 
 </div>
 
 
@@ -238,9 +240,9 @@
 
 
 
-<div v-bind:class="{active: trackp == 0}">
+<!--<div v-bind:class="{active: trackp == 0}">
 <button v-on:click="nextButtonTrackp">Track Order</button>
-</div>
+</div>-->
 
 <button onclick="location.reload()"> Return to main </button>
 
@@ -259,11 +261,11 @@
  <h2 id="pay">Payment was sucessful!</h2>
 <h5 id="payC"> Your order number is {{ orderId }}. Check your email for  an order confirmation</h5>
 
-<div v-bind:class="{active: trackc == 0}">
+<!--<div v-bind:class="{active: trackc == 0}">
 <button v-on:click="nextButtonTrackc">Track Order</button>
-</div>
+</div>-->
 
-<button v-on:click="nextButtonCompany"> Return to main </button>
+<button onclick="location.reload()"> Return to main </button>
 </div>
 
 <div id="t6" v-bind:class="{active: trackc == 1}">

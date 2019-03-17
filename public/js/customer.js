@@ -225,6 +225,13 @@ checkExpress: function(){
   },
   nextButtonCompany: function(count){
   this.count++;
+  this.index=15;
+ /*  var steps= document.getElementsByClassName('stepper');
+  for(var step in steps){
+    step.style.display="hidden";
+  }
+  document.getElementById('steppers').style.display="hidden"; */
+
     window.scrollTo(0,0);
   },
   saveSenderDataCompany: function () {
@@ -288,14 +295,12 @@ checkExpress: function(){
 
     });
 
-    window.addEventListener('popstate', function(event) {
-  pagesCustomer.index--;
+  window.addEventListener('popstate', function(event) {
+  pagesCustomer.data.index--;
 
 });
 
-function menu() {
-  document.querySelector('.menu').classList.toggle('active');
-}
+
 
 /*var pages = new Vue({
   el: '#pages',

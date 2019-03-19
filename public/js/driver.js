@@ -234,6 +234,10 @@ var driverPages= new Vue({
         this.recentOrder=null;
         this.index=1;
         closeForm();
+      },
+      logOut : function() {
+        socket.emit("driverQuit", this.driverId);
+        location.reload();
       }
 
       

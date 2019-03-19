@@ -86,7 +86,7 @@
             </ol>
           </div>
 
-        <button id="logout-button" onclick="window.location.href='driver'">Log out</button>
+        <button id="logout-button" v-on:click="logOut">Log out</button>
         </div>
 
        <div id="More-info" v-bind:class="{active: index == 2}">
@@ -147,3 +147,5 @@
 
 </body>
 </html>
+
+<!-- onclick="window.location.href='driver'" -->

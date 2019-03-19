@@ -46,6 +46,11 @@ var model= new Vue({
       this.$forceUpdate();
       this.countOrders(this.orders[orderId].driverId);
     }.bind(this));
+    socket.on('driverQuit', function (driverId) {
+      Vue.delete(this.drivers, driverId);
+      this.map.removeLayer(this.driverMarkers[driverId]);
+      Vue.delete(this.driverMarkers, driverId);
+    }.bind(this));
     socket.on('driverUpdated', function (driver) {
       this.map.removeLayer(this.driverMarkers[driver.driverId]);
       

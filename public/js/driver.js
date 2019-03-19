@@ -4,7 +4,7 @@
 'use strict';
 var socket = io();
 
-var vm = new Vue({
+/*var vm = new Vue({
   el: '#page',
   data: {
     map: null,
@@ -134,4 +134,116 @@ var vm = new Vue({
       return {from: fromMarker, dest: destMarker, line: connectMarkers};
     },
   }
+});*/
+
+var driverPages= new Vue({
+  el:'#pages',
+  data: {
+      index:0,
+      orders:{},
+      driverNames: ["Lance Sanders","Kiyan Kendall", "Wilf Knox", "Denise Levy", "Omar Partridge", "Yusef Evans", "Aneurin Houghton", "Verity Castillo", "Can Drake", "Rae Lin"],
+      driverId:1,
+      driverLocation: null,
+      recentOrder: null
+  },
+  created: function () {
+    socket.on('initialize', function (data) {
+      // add marker for home base in the map
+     // this.baseMarker = L.marker(data.base, {icon: this.baseIcon}).addTo(this.map);
+      //this.baseMarker.bindPopup("This is the dispatch and routing center");
+
+      this.orders = data.orders;
+    }.bind(this));
+    socket.on('currentQueue', function (data) {
+      this.orders = data.orders;
+      
+    }.bind(this));
+  },
+  methods:{
+      nextButton: function() {
+          this.index++;
+          window.scrollTo(0,0);
+          console.log(this.orders);
+   }, 
+      toShipment:function(){
+        this.index=1;
+        window.scrollTo(0,0);
+      },
+      orderDroppedOff: function (order) {
+        // Update used capacity
+        
+        socket.emit("orderDroppedOff", order.orderId);
+      }, 
+      getIssue: function(){
+        const issue= document.querySelector('form');
+        const data= new FormData(issue);
+        const text= data.get('issue');
+        console.log(text);
+        issue.reset();
+      },
+      emitDriver: function(){
+        this.driverLocation={ "lat": 59.84091407485801 + this.randomNum() , "lng": 17.64924108548685 + this.randomNum()};
+        socket.emit("addDriver", this.getDriverInfo());
+        console.log(this.getDriverInfo());
+        this.nextButton();
+      },
+      getDriverInfo: function () {
+        return  { driverId: this.driverId, driverName: this.driverNames[this.driverId % 10],
+                  latLong:this.driverLocation};
+      },
+      showMoreInfo: function(order){
+        var name= document.getElementById('nameOfC');
+        var address= document.getElementById('AddOfC');
+        var number= document.getElementById('NumOfC');
+        var orderN= document.getElementById('OrOfC'); 
+        name.innerHTML= order.recData[1];
+        address.innerHTML=order.recData[3];
+        number.innerHTML=order.senData[5];
+        orderN.innerHTML=order.orderId;
+        this.recentOrder= order;
+        this.nextButton();
+      },
+      randomNum:function() {
+        return Math.random() * (0.1) - 0.05;
+       },
+       orderDroppedOff: function () {
+        // Update used capacity
+        
+  
+        Vue.delete(this.orders, this.recentOrder.orderId);
+       
+       
+       
+       
+        socket.emit("orderDroppedOff", this.recentOrder.orderId);
+        this.recentOrder=null;
+        this.index=1;
+      }
+
+      
+      }
 });
+
+function menu() {
+  document.querySelector('.menu').classList.toggle('active');
+}
+
+function openForm() {
+  document.getElementById('orderDone').style.display="none";
+  document.getElementById("myForm").style.display = "block";
+}
+
+function closeForm() {
+  document.getElementById("myForm").style.display = "none";
+  document.getElementById('orderDone').style.display=" block";
+}
+
+const issue= document.querySelector('form');
+
+issue.addEventListener('submit',(event)=>{
+    event.preventDefault();
+    const data= new FormData(issue);
+    const text= data.get('issue');
+    console.log(text);
+    issue.reset();
+})

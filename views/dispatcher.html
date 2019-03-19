@@ -2,39 +2,140 @@
 <html>
 <head>
   <meta charset="utf-8">
+
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>DELIVERY DISPATCHER</title>
+  <title>DelivMates - Dispatcher</title>
   <link rel="stylesheet" href="/leaflet/leaflet.css">
   <link rel="stylesheet" href="css/shared.css">
+    <link rel="stylesheet" href="/css/style.css">
+  <script src="js/script.js" defer></script>
   <script src="/vue/vue.js"></script>
   <script src="/socket.io/socket.io.js"></script>
   <script src="/leaflet/leaflet.js"></script>
   <script src="js/dispatcher.js" defer></script>
+
 </head>
 <body>
-  <a href="/" target="_blank">Open customer view</a> | 
-  <a href="/dispatcher" target="_blank">Open another dispatcher view</a> | 
-  <a href="/driver" target="_blank">Open driver view</a>
+    <div class="menu">
+        <div class="menu-button" onclick="menu()">
+            <span id="top"></span>
+            <span id="bottom"></span>
+        </div>
+        <div class="menu-items">
+            <div>
+            <span><a href="/" target="_blank">Customer</a></span>
+            <span><a href="/dispatcher" target="_blank">Dispatcher</a></span>
+            <span><a href="/driver" target="_blank">Driver</a></span>
+        </div>
+        </div>
+    </div>
+    <div class="login-screen">
+      <div class="box login-screen-box" id="login-dispatcher">
+
+          <h3>Login Dispatcher</h3>
+          <img class = "truck" src="img/truck-logo.png">
+          <label>Dispatcher ID</label><input id='ID' v-model="driverId" type="number" required>
+          <label>Password</label><input type="password" required value="fakepassword">
+          <button id="login-button" onclick="loginDispatcher()">Login</button>
+      </div>
+    </div>
+    <div id="dispatcher">
   <h1>
-    DELIVERY DISPATCHER
+    Delivery dispatcher
   </h1>
-  <div id="page">
-    <div id="my-map"></div>
-    <h1>Orders</h1>
-    <ul>
-      <li v-for="order in orders">
-        # {{ order.orderId}} From: {{ order.fromLatLong[0].toFixed(3) }}, {{ order.fromLatLong[1].toFixed(3) }} Destination: {{ order.destLatLong[0].toFixed(3) }}, {{ order.destLatLong[1].toFixed(3) }} Express/Processed: {{ order.expressOrAlreadyProcessed ? "Yes" : "No" }}
-        <ul>
-          <li v-for="(detail, key) in order.orderDetails">
-            {{ key + ": " + detail }}
-          </li>
-        </ul>
-        <select v-on:change="assignDriver(order)" v-model="order.driverId">
+  <div class="dispatcherColumns">
+    <h2>Orders</h2>
+    <div id="filters">
+    <a href="#" :class="{active: filters==0}" @click.prevent="filters = 0">All</a><a href="#" :class="{active: filters==1}" @click.prevent="filters = 1">Unassigned</a><a href="#" :class="{active: filters==2}" @click.prevent="filters = 2">Assigned</a></div>
+    <div id="orders">
+      
+      <div class="ordersHead">
+        <p class="orderId">Order ID</p>
+        <p class="orderFrom">From</p>
+        <p class="orderTo">To</p>
+        <p class="orderExpress">Express</p>
+        <p class="orderDriver">Driver ID</p>
+      </div>
+      <div class="order" v-for="order in orders" v-on:dblclick="orderPopup(order.orderId)" v-on:click="orderSelect($event.target)" v-if="filters == 0">
+        <p class="orderId">{{order.orderId}}</p>
+        <p class="orderFrom">{{ order.senData[2] }}</p>
+        <p class="orderTo">{{ order.recData[3]}}</p>
+        <p class="orderExpress">{{ order.express ? "Yes" : "No" }}</p>
+        <select class="orderDriver" v-on:change="assignDriver(order)" v-model="order.driverId">
           <option disabled value="">Assign a driver</option>
-          <option v-for="driver in drivers" :value="driver.driverId"># {{ driver.driverId}} Pos: {{ driver.latLong.lat.toFixed(3) }}, {{ driver.latLong.lng.toFixed(3) }} </option>
-        </select> Assigned to driver #{{ order.driverId }}
-      </li>
-    </ul>
+          <option v-for="driver in drivers">{{ driver.driverId}} </option>
+        </select>
+      </div>
+      <div class="order" v-for="order in orders" v-on:dblclick="orderPopup(order.orderId)" v-on:click="orderSelect($event.target)" v-if="filters == 1 && order.driverId == null">
+        <p class="orderId">{{order.orderId}}</p>
+        <p class="orderFrom">{{ order.senData[2] }}</p>
+        <p class="orderTo">{{ order.recData[3]}}</p>
+        <p class="orderExpress">{{ order.express ? "Yes" : "No" }}</p>
+        <select class="orderDriver" v-on:change="assignDriver(order)" v-model="order.driverId">
+          <option disabled value="">Assign a driver</option>
+          <option v-for="driver in drivers">{{ driver.driverId}} </option>
+        </select>
+      </div>
+      <div class="order" v-for="order in orders" v-on:dblclick="orderPopup(order.orderId)" v-on:click="orderSelect($event.target)" v-if="filters == 2 && order.driverId != null">
+        <p class="orderId">{{order.orderId}}</p>
+        <p class="orderFrom">{{ order.senData[2] }}</p>
+        <p class="orderTo">{{ order.recData[3]}}</p>
+        <p class="orderExpress">{{ order.express ? "Yes" : "No" }}</p>
+        <select class="orderDriver" v-on:change="assignDriver(order)" v-model="order.driverId">
+          <option disabled value="">Assign a driver</option>
+          <option v-for="driver in drivers">{{ driver.driverId}} </option>
+        </select>
+      </div>
+    </div>
   </div>
+  <div class="dispatcherColumns">
+    <h2 style="margin-top:30px;">Drivers</h2>
+    <div id="drivers">
+        <p v-if="Object.keys(drivers).length == 0">No available drivers</p>
+	<div class="driver" v-for="driver in drivers">
+	  <p class="driverInfo">Current orders: {{ countOrders(driver.driverId) }}</p>
+        <img class="driverImg" src="img/user.svg">
+        <p class="driverId"><b>{{driver.driverName}}</b> - ID: {{driver.driverId}}</p>
+        <span class="assign" v-bind:class="{active: availableAssign}" v-on:click="assignOrders(driver.driverId)">Assign</span>
+      </div>
+    </div>
+  </div>
+  <h2>Map</h2>
+    <div id="my-map"></div>
+    <div id="orderPopup">
+        <div id="popupBg" onclick="document.querySelector('#orderPopup').classList.remove('active')"></div>
+        <div id="popupBox">
+    <h2>Order {{popup.orderId}}</h2>
+    <h5 v-if="popup.express">Express</h5>
+      <h3>Sender</h3>
+  <label>Name</label><p>{{popup.senData[0]}} {{popup.senData[1]}}</p>
+<label>Address</label><p>{{popup.senData[2]}}<br>{{popup.senData[3]}}</p>
+<label>E-mail</label><p>{{popup.senData[4]}}</p>
+<label>Phone</label><p>{{popup.senData[5]}}</p>
+    <h3>Reciever</h3>
+  <label>Name</label><p>{{popup.recData[1]}} {{popup.recData[2]}}</p>
+  <label>Address</label><p>{{popup.recData[3]}}<br>{{popup.recData[4]}}</p>
+
+</div>
+</div>
+</div>
+</div>
+<div class="footer">
+  <div class="footer-left">
+    <div>
+      <span>DelivMates</span>
+    </div>
+    <div class="">
+      <span>Tel: 011-111 000 010</span>
+    </div>
+    <div>
+      <span>@ Copyright 2019</span>
+    </div>
+  </div>
+  <div class="footer-right">
+    <span>PlaceHolder</span>
+  </div>
+</div>
+
 </body>
 </html>

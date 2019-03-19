@@ -4,6 +4,175 @@
 'use strict';
 var socket = io();
 
+var model= new Vue({
+  el: '#dispatcher',
+  data: {
+      popup: {
+          senData: [],
+          recData: ['Choose package']
+        },
+      orders:{},
+      filters: 0,
+      drivers:{ },
+      customerMarkers: {},
+      driverMarkers: {},
+      baseMarker: null,
+      availableAssign: false
+  },
+  created: function(){
+    socket.on('initialize', function (data) {
+      this.orders = data.orders;
+	this.drivers = data.drivers;
+	this.baseMarker = L.marker(data.base, {icon: this.baseIcon}).addTo(this.map);
+	this.baseMarker.bindPopup("This is the dispatch and routing center");
+	for (var orderId in data.orders) {
+            this.customerMarkers[orderId] = this.putCustomerMarkers(data.orders[orderId]);
+  }
+  for (var driverId in data.drivers) {
+    this.driverMarkers[driverId] = this.putDriverMarker(data.drivers[driverId]);
+  }
+
+    }.bind(this));
+    socket.on('driverAdded', function (driver) {
+      this.$set(this.drivers, driver.driverId, driver);
+      this.driverMarkers[driver.driverId] = this.putDriverMarker(driver);
+
+
+    }.bind(this));
+    socket.on('driverUpdated', function (driver) {
+      this.drivers[driver.driverId] = driver;
+    }.bind(this));
+    socket.on('orderPlaced', function (order) {
+	this.$set(this.orders, order.orderId, order);
+	this.customerMarkers[order.orderId] = this.putCustomerMarkers(order);
+
+    }.bind(this));
+    socket.on('driverAssigned', function (order) {
+      this.$set(this.orders, order.orderId, order);
+    }.bind(this));
+      socket.on('orderDroppedOff', function (orderId) {
+	  Vue.delete(this.orders, orderId);
+	  this.map.removeLayer(this.customerMarkers[orderId].from);
+	  this.map.removeLayer(this.customerMarkers[orderId].dest);
+	  this.map.removeLayer(this.customerMarkers[orderId].line);
+	  Vue.delete(this.customerMarkers, orderId);
+      }.bind(this));
+
+      this.driverIcon = L.icon({
+        iconUrl: "img/driver.png",
+        iconSize: [36,20],
+        iconAnchor: [18,22],
+        popupAnchor: [0,-20]
+      });
+
+      this.fromIcon = L.icon({
+      iconUrl: "img/box.png",
+      iconSize: [42,30],
+      iconAnchor: [21,34]
+    });
+
+    this.baseIcon = L.icon({
+      iconUrl: "img/base.png",
+      iconSize: [40,40],
+      iconAnchor: [20,20]
+    });
+  },
+    mounted: function () {
+	this.map = L.map('my-map').setView([59.8415,17.648], 13);
+
+	// create the tile layer with correct attribution
+	var osmUrl='http://{s}.tile.osm.org/{z}/{x}/{y}.png';
+	var osmAttrib='Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors';
+	L.tileLayer(osmUrl, {
+            attribution: osmAttrib,
+            maxZoom: 18
+	}).addTo(this.map);
+},
+    methods:{
+	createPopup: function (orderId, items) {
+	    var popup = document.createElement('div');
+	    popup.appendChild(document.createTextNode('Order ' + orderId));
+	    var list = document.createElement('ul');
+	    list.classList.add('popup-list');
+	    for (var i in items) {
+		var listItem = document.createElement('li');
+		var listItemText = document.createTextNode(i + ": " + items[i]);
+		listItem.appendChild(listItemText);
+		list.appendChild(listItem);
+	    }
+	    popup.appendChild(list);
+	    return popup;
+	},
+    assignDriver: function (order) {
+	socket.emit("driverAssigned", order);
+    },
+    showDrivers: function(){
+	console.log(this.drivers);
+    },
+    getPolylinePoints: function(order) {
+	if (order.express) {
+            return [order.fromLatLong, order.destLatLong];
+	} else {
+            return [order.fromLatLong, this.baseMarker.getLatLng(), order.destLatLong];
+	}
+    },
+	putCustomerMarkers: function (order) {
+      var fromMarker = L.marker(order.fromLatLong, {icon: this.fromIcon}).addTo(this.map);
+      fromMarker.bindPopup(this.createPopup(order.orderId, order.orderDetails));
+      fromMarker.orderId = order.orderId;
+      var destMarker = L.marker(order.destLatLong).addTo(this.map);
+      destMarker.bindPopup(this.createPopup(order.orderId, order.orderDetails));
+      destMarker.orderId = order.orderId;
+      var connectMarkers = L.polyline(this.getPolylinePoints(order), {color: 'var(--color2-dark)'}).addTo(this.map);
+      return {from: fromMarker, dest: destMarker, line: connectMarkers};
+    },
+    putDriverMarker: function (driver) {
+      var marker = L.marker(driver.latLong, {icon: this.driverIcon}).addTo(this.map);
+      marker.bindPopup("Driver " + driver.driverId);
+      marker.driverId = driver.driverId;
+      return marker;
+    },
+    orderSelect: function (e) {
+      if (!event.shiftKey) {
+      var selected = document.querySelectorAll('.selected');
+      for (var i=0; i<selected.length; i++) {
+        if (selected[i] != e || selected.length > 1) selected[i].classList.remove('selected');
+      }
+    }
+      if (e.classList.contains('order')) e.classList.toggle('selected');
+      var selected = document.querySelectorAll('.selected');
+      if (selected.length == 0) this.availableAssign = false;
+      else this.availableAssign = true;
+    },
+    assignOrders: function(id) {
+      var selected = document.querySelectorAll('.selected');
+      for (var i=0; i<selected.length; i++) {
+        this.orders[selected[i].querySelector('.orderId').innerHTML].driverId = id;
+        this.assignDriver(this.orders[selected[i].querySelector('.orderId').innerHTML]);
+        selected[i].classList.remove('selected');
+        this.availableAssign = false;
+      }
+    },
+    orderPopup: function(id) {
+      var popup = document.querySelector("#orderPopup");
+      var order = this.orders[parseInt(id)];
+      this.popup=order;
+      popup.classList.add('active');
+    },
+    countOrders: function(driverId) {
+        var counter = 0;
+	for (var orderId in this.orders) {
+	    if(this.orders[orderId].driverId == driverId) {
+		counter++;
+	    }
+	}
+	return counter;
+    }
+
+}
+})
+
+/*
 var vm = new Vue({
   el: '#page',
   data: {
@@ -85,7 +254,7 @@ var vm = new Vue({
       iconSize: [40,40],
       iconAnchor: [20,20]
     });
-       
+
   },
   mounted: function () {
     // set up the map
@@ -141,4 +310,4 @@ var vm = new Vue({
       socket.emit("driverAssigned", order);
     }
   }
-});
+});*/

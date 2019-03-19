@@ -226,7 +226,6 @@ if (this.count > 0 && this.count != 5 && e.target.parentElement.checkValidity() 
 else e.preventDefault();
     this.index=-1;
   this.count++;
-  this.index=15;
  /*  var steps= document.getElementsByClassName('stepper');
   for(var step in steps){
     step.style.display="hidden";
@@ -253,6 +252,8 @@ else e.preventDefault();
     senderData[5]=phoneA;
     senderData[6]=compName;
     this.order.senData= senderData;
+    this.order.fromLatLong = [(Math.random() * (59.8670 - 59.8320) + 59.8320).toFixed(4), (Math.random() * (17.7440 - 17.5600) + 17.5600).toFixed(4)];
+    this.order.destLatLong = [(Math.random() * (59.8670 - 59.8320) + 59.8320).toFixed(4), (Math.random() * (17.7440 - 17.5600) + 17.5600).toFixed(4)];
     console.log(this.order);
   },
      placeOrder: function(e) {

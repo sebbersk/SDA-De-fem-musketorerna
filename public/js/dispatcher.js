@@ -168,6 +168,14 @@ var model= new Vue({
         this.availableAssign = false;
       }
     },
+      filtersChange(number) {
+      this.filters = number;
+      var selected = document.querySelectorAll('.selected');
+      for (var i=0; i<selected.length; i++) {
+        selected[i].classList.remove('selected');
+      }
+      this.availableAssign = false;
+    },
     orderPopup: function(id) {
       var popup = document.querySelector("#orderPopup");
       var order = this.orders[parseInt(id)];

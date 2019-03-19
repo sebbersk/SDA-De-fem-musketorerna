@@ -46,7 +46,7 @@
   <div class="dispatcherColumns">
     <h2>Orders</h2>
     <div id="filters">
-    <a href="#" :class="{active: filters==0}" @click.prevent="filters = 0">All</a><a href="#" :class="{active: filters==1}" @click.prevent="filters = 1">Unassigned</a><a href="#" :class="{active: filters==2}" @click.prevent="filters = 2">Assigned</a></div>
+    <a href="#" :class="{active: filters==0}" @click.prevent="filtersChange(0)">All</a><a href="#" :class="{active: filters==1}" @click.prevent="filtersChange(1)">Unassigned</a><a href="#" :class="{active: filters==2}" @click.prevent="filtersChange(2)">Assigned</a></div>
     <div id="orders">
       
       <div class="ordersHead">

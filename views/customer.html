@@ -3,30 +3,361 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>DELIVERY CUSTOMER</title>
+  <meta name="theme-color" content="#14ce9c">
+  <title>DelivMates - Customer</title>
   <link rel="stylesheet" href="/leaflet/leaflet.css">
   <link rel="stylesheet" href="/esri-leaflet-geocoder/esri-leaflet-geocoder.css">
   <link rel="stylesheet" href="css/shared.css">
+  <link rel="stylesheet" href="/css/style.css">
   <script src="/vue/vue.js"></script>
   <script src="/socket.io/socket.io.js"></script>
   <script src="/leaflet/leaflet.js"></script>
-  <script src="/esri-leaflet/esri-leaflet.js"></script> 
-  <script src="/esri-leaflet-geocoder/esri-leaflet-geocoder.js"></script> 
-  <script src="js/customer.js" defer></script>
+    <script src="js/customer.js" defer></script>
+  <script src="js/script.js" defer></script>
+  <script src="js/confetti.js" defer></script>
+  <script src="/esri-leaflet/esri-leaflet.js"></script>
+  <script src="/esri-leaflet-geocoder/esri-leaflet-geocoder.js"></script>
+
 </head>
-<body>
-  <a href="/" target="_blank">Open another customer view</a> | 
-  <a href="/dispatcher" target="_blank">Open dispatcher view</a> | 
-  <a href="/driver" target="_blank">Open driver view</a>
-  <h1>
-    DELIVERY CUSTOMER 
+<body id="bodyCustomer">
+        <div class="menu">
+        <div class="menu-button" onclick="menu()">
+            <span id="top"></span>
+            <span id="bottom"></span>
+        </div>
+        <div class="menu-items">
+            <div>
+            <span><a href="/" target="_blank">Customer</a></span>
+            <span><a href="/dispatcher" target="_blank">Dispatcher</a></span>
+            <span><a href="/driver" target="_blank">Driver</a></span>
+        </div>
+        </div>
+    </div>
+
+  <!--<h1>
+    DELIVERY CUSTOMER
   </h1>
   <p>Select pickup location first, then your parcel's destination</p>
   <div id="page">
     <div id="my-map"></div><br>
-    <input type="checkbox" v-model="express" @change="moveMarker" name="express" value="express">Check this box for express delivery!</input><br><br>
+        <label class="checkbox">
+        <input type="checkbox" v-model="express" @change="moveMarker" name="express" value="express"><span class="checkmark"></span><label>Check this box for express delivery!</label>
+    </label>
     <button v-on:click="placeOrder">ORDER DELIVERY</button>
     Your order number is {{ orderId }}
+  </div>-->
+
+
+
+
+
+
+<div id="customer">
+  <div id="pages" class="customer">
+<div id="steppers" v-bind:class="{active: (index > 0 && index < 6)|| index==-1 && count > 0 && count < 6}">
+<span class="stepper" v-on:click="stepperClick(1)" v-bind:class="{active: index > 0 || index==-1 && count > 0}">1</span>
+
+<span class="line"></span>
+<span class="stepper" v-on:click="stepperClick(2)" v-bind:class="{active: index > 1 || index==-1 && count > 1}">2</span>
+<span class="line"></span>
+<span class="stepper" v-on:click="stepperClick(3)" v-bind:class="{active: index > 2 || index==-1 && count > 2}">3</span>
+<span class="line"></span>
+<span class="stepper" v-on:click="stepperClick(4)" v-bind:class="{active: index > 3 || index==-1 && count > 3}">4</span>
+<span class="line"></span>
+<span class="stepper" v-on:click="stepperClick(5)" v-bind:class="{active: index > 4 || index==-1 && count > 4}">5</span>
+</div>
+
+
+  <div id="log-in-customer" v-bind:class ="{active: index == 0} ">
+
+        <h1 class ="logo">Welcome to DelivMates! </h1>
+    <img class = "truck" src="img/truck-logo.png">
+
+
+      <center>
+    <button v-on:click="nextButton($event)">Place order(private individual)</button>
+
+<button v-on:click="nextButtonCompany">Place order(company)</button>
+
+
+    <!--<button v-on:click="nextButtonTrack">Track Order</button>-->
   </div>
+
+
+
+
+
+<div id="package-company" v-bind:class="{active: count == 1}">
+    <h2>Choose package</h2>
+<select id="packC" v-model="order.recData[0]">
+    <option disabled selected>Choose package</option>
+    <option>Package 0.5kg max, 49SEK</option>
+    <option>Package 1kg max, 59SEK</option>
+    <option>Package 2kg max, 69SEK</option>
+    <option>Package 3kg max, 79SEK</option>
+</select>
+
+<h3>Receiver address</h3>
+<h5>Fill in the address you want to send your order to!</h5>
+<div id="popup" >
+  <span class="popuptext" id="myPopup">Please write required information</span>
+</div>
+
+<form>
+<label>Company Name</label><input  v-model="order.recData[5]" id="compNameX" optional>
+<label>First Name</label><input  v-model="order.recData[1]" id="fNameX"  required>
+<label>Last Name</label><input  v-model="order.recData[2]" id="lNameX"required>
+<label>Street address</label><input  v-model="order.recData[3]" id="sNameX"required >
+<label>Zip Code</label><input  v-model="order.recData[4]" id="zipX"type="number" required>
+<button type="submit" v-on:click="nextButtonCompany">Continue</button>
+</form>
+
+</div>
+</form>
+
+
+
+
+<div id="package-choose" v-bind:class="{active: index == 1}">
+    <h2>Choose package</h2>
+<select id="pack"  v-model="order.recData[0]">
+    <option selected disabled>Choose package</option>
+    <option>Package 0.5kg max, 49SEK</option>
+    <option>Package 1kg max, 59SEK</option>
+    <option>Package 2kg max, 69SEK</option>
+    <option>Package 3kg max, 79SEK</option>
+</select>
+
+<h3>Receiver address</h3>
+<h5>Fill in the address you want to send your order to!</h5>
+<div id="popup" >
+  <span class="popuptext" id="myPopup">Please write required information</span>
+</div>
+
+<form>
+<label>First Name</label><input  v-model="order.recData[1]" id="fstNameR" required>
+<label>Last Name</label><input  v-model="order.recData[2]" id="lastNameR" required>
+<label>Street address</label><input  v-model="order.recData[3]" id="strNameR"required>
+<label>Zip Code</label><input  v-model="order.recData[4]" id="zipR"type="number"required>
+<button type="submit" v-on:click="nextButton($event)">Continue</button>
+</form>
+  </div>
+
+
+<!--<div id="t1" v-bind:class="{active: track == 1}">
+<h2>TRACK</h2>
+<label>ENTER TRACKNUMBER</label><input required>
+<button v-on:click ="nextButtonTrack">View</button>
+</div>-->
+
+<div id="delivery-company" v-bind:class="{active: count == 2}">
+    <img src="img/package.jpg">
+
+
+    <h2>Choose delivery option</h2>
+    <form>
+    <label class="radio">
+        <input type="radio" name="delivery-option" value="regular" checked><span class="checkmark"></span><label>Regular (1-2 days)</label>
+    </label>
+    <label class="radio">
+        <input type="radio" name="delivery-option" v-model="express"value="express"><span class="checkmark"></span><label>Express (24 hours) + 29SEK</label>
+    </label>
+    <button type="sumbit" v-on:click="nextButtonCompany">Continue</button>
+  </form>
+</div>
+
+
+
+
+
+
+
+<div id="package-option" v-bind:class="{active: index == 2}">
+    <img src="img/package.jpg">
+    <h2>Choose delivery option</h2>
+    <form>
+    <label class="radio">
+        <input type="radio" name="delivery-option" value="regular" checked><span class="checkmark"></span><label>Regular (1-2 days)</label>
+    </label>
+    <label class="radio">
+        <input type="radio" name="delivery-option" v-model="express"value="express"><span class="checkmark"></span><label>Express (24 hours) + 29SEK</label>
+    </label>
+    <button type="sumbit" v-on:click="nextButton($event)">Continue</button>
+  </form>
+</div>
+
+
+
+
+
+<div id="info"  v-bind:class="{active: index == 3}">
+<h2>Fill in your information</h2>
+<form>
+<label>First Name</label><input v-model="order.senData[0]" id="fstNameS" required>
+<label>Last Name</label><input  v-model="order.senData[1]" id="lastNameS" required>
+<label>Street address</label><input  v-model="order.senData[2]" id="strNameS"required>
+<label>Zip Code</label><input  v-model="order.senData[3]" id="zipS" type="number" required>
+<label>E-mail</label><input id="emailS"  v-model="order.senData[4]" type="email" required>
+<label>Telephone number</label><input id="phoneS"  v-model="order.senData[5]" type="number" required>
+<button type="sumbit" v-on:click="nextButton($event)">Continue</button>
+</form>
+
+</div>
+
+
+<div v-bind:class="{active: count == 3}">
+<h2>Fill in your information</h2>
+<form>
+<label>Company Name</label><input v-model="order.senData[6]" id="compNameX"required>
+<label>Street address</label><input v-model="order.senData[2]" id="sNameX"required>
+<label>Zip Code</label><input id="zipX"  v-model="order.senData[3]"  type="number" required>
+<label>E-mail</label><input id="emailX"  v-model="order.senData[4]" type="email" required>
+<label>Telephone number</label><input  v-model="order.senData[5]" id="phoneX" type="number" required>
+<button type="sumbit" v-on:click="nextButtonCompany">Continue</button>
+</form>
+</div>
+
+
+
+<div id="payment"  v-bind:class="{active: index == 4}">
+<h2>Payment</h2>
+<h4>Choose your payment method below</h4>
+<form>
+<label class="radio">
+        <input type="radio" name="payment-type" v-model="payment" id="credit-card" value="credit-card"><span class="checkmark"></span><label>Credit Card</label>
+    </label>
+<label class="radio">
+        <input type="radio" name="payment-type" v-model="payment" value="klarna"><span class="checkmark"></span><label>Klarna</label>
+    </label>
+    <div v-if="payment == 'credit-card'">
+    <label>Card holders name</label><input placeholder="Name" required>
+    <label>Card Number</label><input type="number" placeholder="XXXX XXXX XXXX XXXX" required>
+    <label>CVC</label><input type="number" placeholder="XXX" required>
+    <label>Date</label><input placeholder="XX/XX" required>
+    </div>
+    <button type="sumbit" v-on:click="nextButton">Continue</button>
+  </form>
+</div>
+
+
+<div  v-bind:class="{active: count == 4}">
+<h2>Payment</h2>
+<form>
+<label class="radio">
+        <input type="radio" name="payment-type" v-model="payment" value="credit-card" checked><span class="checkmark"></span><label>Credit Card</label>
+    </label>
+<label class="radio">
+        <input type="radio" name="payment-type" v-model="payment" value="klarna"><span class="checkmark"></span><label>Klarna</label>
+    </label>
+    <div v-if="payment == 'credit-card'">
+    <label>Card holders name</label><input placeholder="Name" required>
+    <label>Card Number</label><input type="number" placeholder="XXXX XXXX XXXX XXXX" required>
+    <label>CVC</label><input type="number" placeholder="XXX" required>
+    <label>Date</label><input placeholder="XX/XX" required>
+</div>
+    <button type="sumbit" v-on:click="nextButtonCompany">Continue</button>
+  </form>
+</div>
+
+<div id="confirm" v-bind:class="{active: index == 5}">
+  <h2>Details</h2>
+  <h3>Reciever</h3>
+  <label>Name</label><p>{{order.recData[1]}} {{order.recData[2]}}</p>
+  <label>Address</label><p>{{order.recData[3]}}<br>{{order.recData[4]}}</p>
+  <h3>Sender</h3>
+  <label>Name</label><p>{{order.senData[0]}} {{order.senData[1]}}</p>
+<label>Address</label><p>{{order.senData[2]}}<br>{{order.senData[3]}}</p>
+<label>E-mail</label><p>{{order.senData[4]}}</p>
+<label>Phone</label><p>{{order.senData[5]}}</p>
+
+  <button type="sumbit" v-on:click="placeOrder($event)">Confirm</button>
+</div>
+
+<div id="confirmCompany" v-bind:class="{active: count == 5}">
+  <h2>Details</h2>
+  <h3>Reciever</h3>
+  <label>Company Name</label><p>{{order.recData[5]}} {{order.recData[2]}}</p>
+  <label>Name</label><p>{{order.recData[1]}} {{order.recData[2]}}</p>
+  <label>Address</label><p>{{order.recData[3]}}<br>{{order.recData[4]}}</p>
+  <h3>Sender</h3>
+  <label>Company name</label><p>{{order.senData[6]}} {{order.senData[1]}}</p>
+<label>Address</label><p>{{order.senData[2]}}<br>{{order.senData[3]}}</p>
+<label>E-mail</label><p>{{order.senData[4]}}</p>
+<label>Phone</label><p>{{order.senData[5]}}</p>
+  <button type="sumbit" v-on:click="placeOrderCompany($event)">Confirm</button>
+</div>
+
+<div id="info"  v-bind:class="{active: index == 6}">
+  <img class = "payment" src="img/payment.png">
+<h2 id="pay">Payment was sucessful!</h2>
+<h5 class ="pay"> Your order number is {{ orderId }}. Check your email for  an order confirmation</h5>
+
+
+
+<!--<div v-bind:class="{active: trackp == 0}">
+<button v-on:click="nextButtonTrackp">Track Order</button>
+</div>-->
+
+<button v-on:click="returnMain"> Return to main </button>
+
+
+</div>
+
+<!--<div id="t2" v-bind:class="{active: trackp == 1}">
+<h2>TRACK</h2>
+<label>ENTER TRACKNUMBER</label><input required>
+<button v-on:click ="nextButtonTrackp">View</button>
+</div>-->
+
+
+<div id="info"  v-bind:class="{active: count == 6}">
+  <img class = "payment" src="img/payment.png">
+ <h2 id="pay">Payment was sucessful!</h2>
+<h5 id="payC"> Your order number is {{ orderId }}. Check your email for  an order confirmation</h5>
+
+<!--<div v-bind:class="{active: trackc == 0}">
+<button v-on:click="nextButtonTrackc">Track Order</button>
+</div>-->
+
+
+<button v-on:click="returnMain"> Return to main </button>
+
+</div>
+
+<!--<div id="t6" v-bind:class="{active: trackc == 1}">
+<h2>TRACK</h2>
+<label>ENTER TRACKNUMBER</label><input required>
+<button v-on:click ="nextButtonTrackc">View</button>
+</div>-->
+
+
+
+<!--<div id="t5" v-bind:class="{active: track == 6}">
+<h2>TRACK</h2>
+<label>ENTER TRACKNUMBER</label><input required>
+<button v-on:click ="nextButtonTrack">View</button>
+</div>-->
+
+
+</div>
+</div>
+<div class="footer">
+  <div class="footer-left">
+    <div>
+      <span>DelivMates</span>
+    </div>
+    <div class="">
+      <span>Tel: 011-111 000 010</span>
+    </div>
+    <div>
+      <span>@ Copyright 2019</span>
+    </div>
+  </div>
+  <div class="footer-right">
+    <span>PlaceHolder</span>
+  </div>
+</div>
+
+</div>
 </body>
 </html>

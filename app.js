@@ -10,7 +10,7 @@ var io = require('socket.io')(http);
 var path = require('path');
  
 // Pick arbitrary port for server
-var port = 3000;
+var port = 5000;
 app.set('port', (process.env.PORT || port));
 
 // Serve static assets from public/
@@ -159,6 +159,10 @@ socket.on('moveDriver', function (driver) {
     data.orderDropOff(orderId);
     // send updated info to all connected clients, note the use of io instead of socket
     io.emit('orderDroppedOff', orderId);
+  });
+  socket.on("orderCanceled", function(orderId) {
+    console.log("Order",orderId,"could not be delivered");
+    io.emit("orderCanceled",orderId);
   });
 });
 
